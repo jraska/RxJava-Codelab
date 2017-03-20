@@ -1,0 +1,51 @@
+Index: rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(date 1490035560000)
++++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(revision )
+@@ -2,24 +2,39 @@
+ 
+ import org.junit.Test;
+ 
++import io.reactivex.Observable;
++
+ public class Task1_Basics {
+     @Test
+     public void dummyObservable() {
+-        // TODO(josef):  Create Observable with single String value, subscribe to it and print it to console (Observable.just)
++        Observable<Integer> integerObservable = Observable.just(1);
++
++        integerObservable.subscribe(System.out::println);
+     }
+ 
+     @Test
+     public void arrayObservable() {
+-        // TODO(josef):  Create Observable with ints 1, 2, 3, 4, 5, subscribe to it and print each value to console (Observable.fromArray)
++        Observable<Integer> arrayObservable = Observable.fromArray(1, 2, 3, 4, 5);
++
++        arrayObservable.subscribe(System.out::println);
+     }
+ 
+     @Test
+     public void helloOperator() {
+-        // TODO(josef):  Create Observable with ints 1 .. 10 subscribe to it and print only odd values (Observable.range, observable.filter)
++        Observable<Integer> rangeObservable = Observable.range(1, 10);
++
++        rangeObservable.filter(Task1_Basics::isOdd)
++                .subscribe(System.out::println);
+     }
+ 
+     @Test
+     public void receivingError() {
+-        // TODO(josef):  Create Observable which emits an error and print the console (Observable.error), subscribe with onError handling
++        Observable<Integer> integerObservable = Observable.error(new RuntimeException("I want to crash you"));
++
++        integerObservable.subscribe(System.out::println, System.err::println);
++    }
++
++    static boolean isOdd(int value) {
++        return value % 2 == 0;
+     }
+ }
