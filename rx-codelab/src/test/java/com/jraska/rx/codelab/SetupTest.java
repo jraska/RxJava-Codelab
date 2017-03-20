@@ -12,7 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SetupTest {
     @Test
     public void everythingSetUp() throws IOException {
-        RequestInfo requestInfo = HttpModule.httpBinApi().getRequest().blockingFirst();
+        RequestInfo requestInfo = HttpModule.httpBinApi()
+                .getRequest()
+                .compose(LoggingObserver.transformer())
+                .blockingFirst();
 
         assertThat(requestInfo.url).isNotNull();
         assertThat(requestInfo.origin).isNotNull();
