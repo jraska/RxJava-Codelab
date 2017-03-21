@@ -6,7 +6,7 @@
 
 
 ## Project setup
- 0. Clone this repo
+ 0. Clone this repo (GitHub Desktop, SourceTree or `git clone https://github.com/jraska/RxJava-Codelab.git`)
  0. Open it in Android Studio or IntelliJ
  0. Run `./gradlew build` in Terminal
  0. Try to run `SetupTest` from your IDE
