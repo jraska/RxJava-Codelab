@@ -18,4 +18,22 @@ public final class RequestInfo {
     @SerializedName("url")
     @Expose
     public String url;
+    @SerializedName("data")
+    @Expose
+    public String data;
+    @SerializedName("json")
+    @Expose
+    public String json;
+
+    @Override
+    public String toString() {
+        return "RequestInfo{" +
+                "args=" + args +
+                ",\nheaders=" + headers +
+                ",\norigin='" + origin + '\'' +
+                ",\nurl='" + url + '\'' +
+                ",\ndata='" + data + '\'' +
+                ",\njson='" + json + '\'' +
+                '}';
+    }
 }
