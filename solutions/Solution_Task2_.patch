@@ -1,0 +1,84 @@
+Index: rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java	(date 1490092149000)
++++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java	(revision )
+@@ -12,6 +12,8 @@
+ import org.junit.Before;
+ import org.junit.Test;
+ 
++import java.util.concurrent.TimeUnit;
++
+ import io.reactivex.Observable;
+ 
+ public class Task2_TransformationsCuttingTheForest {
+@@ -25,46 +27,52 @@
+     @Test
+     public void map_fromOnePieceExactlyToOnePieceOfOtherStuff() {
+         Observable<Tree> treeObservable = Lumberjack.cut(Forest.AMAZON);
++        Observable<Log> logsObservable = treeObservable.map(Tools::handSaw);
++        Observable<Firewood> woodObservable = logsObservable.map(Tools::chop);
+ 
+-        // TODO: Transform Observable of Trees to Observable of Firewood. Tools like handSaw and chopping can be useful
+-
+-        Observable<Firewood> woodObservable = null;
+         fireplace.subscribeForBurn(woodObservable);
+     }
+ 
+     @Test
+     public void flatMap_chainSawProducesMoreLogs() {
+-        // TODO:  Cutting wood by handSaw is not efective, lets use chainSaw now
+-        Observable<Firewood> woodObservable = null;
++        Observable<Firewood> woodObservable = Lumberjack.cut(Forest.AMAZON)
++                .flatMap(Tools::chainSaw)
++                .map(Tools::chop);
++
+         fireplace.subscribeForBurn(woodObservable);
+     }
+ 
+     @Test
+     public void buffer_createBasketsOfWood() {
+-        // TODO: We want some bigger fire, lets put firewood into baskets. Buffering int BasketOfWood might be useful
++        Observable<BasketOfWood> basketsObservable = Lumberjack.cut(Forest.AMAZON)
++                .flatMap(Tools::chainSaw)
++                .map(Tools::chop)
++                .buffer(BasketOfWood.BASKET_SIZE)
++                .map(BasketOfWood::new);
+ 
+-        Observable<BasketOfWood> basketsObservable = null;
+         fireplace.subscribeForBasketBurn(basketsObservable);
+     }
+ 
+     @Test
+     public void flatMap_buffer_createBasketsOfWoodWithCuttingMachine() {
+-        // TODO: Lets be even more effective and use machineChop tool to get
++        Observable<BasketOfWood> basketsObservable = Lumberjack.cut(Forest.AMAZON)
++                .flatMap(Tools::chainSaw)
++                .flatMap(Tools::machineChop)
++                .buffer(BasketOfWood.BASKET_SIZE)
++                .map(BasketOfWood::new);
+ 
+-        Observable<BasketOfWood> basketsObservable = null;
+         fireplace.subscribeForBasketBurn(basketsObservable);
+     }
+ 
+     @Test
+-    public void debounce_filterTooMuchWoodAtOnce() {
+-        Observable<Log> logsObservable = Lumberjack.cut(Forest.AMAZON)
++    public void debounce_filterTooFastEvents() {
++        Observable<Firewood> woodObservable = Lumberjack.cut(Forest.AMAZON)
+                 .flatMap((tree) -> {
+                     Thread.sleep(tree.treeOrdinal() * 100);
+                     return Tools.chainSaw(tree);
+-                });
+-
+-        // TODO: Fireplace is able to handle only one firewood per 250 milliseconds, use debounce for inputs to filter too much firewood out
+-        Observable<Firewood> woodObservable = logsObservable.map(Tools::chop);
++                }).compose(LoggingObserver.transformer())
++                .debounce(250, TimeUnit.MILLISECONDS)
++                .map(Tools::chop);
+ 
+         fireplace.subscribeForBurn(woodObservable);
+     }
