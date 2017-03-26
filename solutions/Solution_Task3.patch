@@ -3,80 +3,79 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- rx-codelab/src/test/java/com/jraska/rx/codelab/Task3_CombiningToAssembleFurniture.java	(date 1490095380000)
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task3_CombiningToAssembleFurniture.java	(date 1490535952000)
 +++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task3_CombiningToAssembleFurniture.java	(revision )
-@@ -4,12 +4,18 @@
+@@ -4,50 +4,58 @@
  import com.jraska.rx.codelab.forest.Log;
  import com.jraska.rx.codelab.forest.Lumberjack;
  import com.jraska.rx.codelab.forest.Tools;
-+import com.jraska.rx.codelab.furniture.Carpenter;
- import com.jraska.rx.codelab.furniture.Chair;
-+import com.jraska.rx.codelab.furniture.Parts;
-+import com.jraska.rx.codelab.furniture.Rivet;
-+import com.jraska.rx.codelab.furniture.Screw;
- import com.jraska.rx.codelab.furniture.Sofa;
- import com.jraska.rx.codelab.furniture.Table;
- 
+-import com.jraska.rx.codelab.furniture.Chair;
+-import com.jraska.rx.codelab.furniture.Sofa;
+-import com.jraska.rx.codelab.furniture.Table;
++import com.jraska.rx.codelab.furniture.*;
+ import io.reactivex.Observable;
  import org.junit.Test;
  
 +import java.util.List;
 +
- import io.reactivex.Observable;
+ public class Task3_CombiningToAssembleFurniture {
+   @Test
+   public void zip_doSomeChair() {
+     Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
++    Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews().buffer(Carpenter.SCREWS_FOR_CHAIR);
  
- import static java.lang.System.out;
-@@ -18,9 +24,9 @@
-     @Test
-     public void zip_doSomeChair() {
-         Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
-+        Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews().buffer(Carpenter.SCREWS_FOR_CHAIR);
+-    // TODO: Carpenter wants to do some chairs, he can get some box of screws from Parts and he needs Logs of wood
+-    Observable<Chair> chairObservable = null;
++    Observable<Chair> chairObservable = logObservable.zipWith(screwsObservable, Carpenter::chair);
  
--        // TODO: Carpenter wants to do some chairs, he can get some box of screws from Parts and he needs Logs of wood
--        Observable<Chair> chairObservable = null;
-+        Observable<Chair> chairObservable = logObservable.zipWith(screwsObservable, Carpenter::chair);
+-//  chairObservable.subscribe(out::println);
++    chairObservable.subscribe(System.out::println);
+   }
  
-         chairObservable.subscribe(out::println);
-     }
-@@ -28,9 +34,11 @@
-     @Test
-     public void concatWith_doTableNow() {
-         Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
-+        Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews()
-+                .concatWith(Parts.boxOfTenScrews())
-+                .buffer(Carpenter.SCREWS_FOR_TABLE);
+   @Test
+   public void concatWith_doTableNow() {
+     Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
++    Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews()
++      .concatWith(Parts.boxOfTenScrews())
++      .buffer(Carpenter.SCREWS_FOR_TABLE);
  
--        // TODO: We now need to  create Table, but one Box of screws is not enough, we can concatWith two boxes to have enough screws
--        Observable<Table> tableObservable = null;
-+        Observable<Table> tableObservable = logObservable.zipWith(screwsObservable, Carpenter::table);
+-    // TODO: We now need to  create Table, but one Box of screws is not enough, we can concatWith two boxes to have enough screws
+-    Observable<Table> tableObservable = null;
++    Observable<Table> tableObservable = logObservable.zipWith(screwsObservable, Carpenter::table);
  
-         tableObservable.subscribe(out::println);
-     }
-@@ -38,9 +46,12 @@
-     @Test
-     public void startWith_doAnotherTable() {
-         Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
-+        Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews()
-+                .startWith(Parts.fiveScrews())
-+                .startWith(Parts.fiveScrews())
-+                .buffer(Carpenter.SCREWS_FOR_TABLE);
+-//  tableObservable.subscribe(out::println);
++    tableObservable.subscribe(System.out::println);
+   }
  
--        // TODO: We can achieve the same with just putting twice fiveScrews from Parts at the start of the Screws Observable
--        Observable<Table> tableObservable = null;
-+        Observable<Table> tableObservable = logObservable.zipWith(screwsObservable, Carpenter::table);
+   @Test
+   public void startWith_doAnotherTable() {
+     Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
++    Observable<List<Screw>> screwsObservable = Parts.boxOfTenScrews()
++      .startWith(Parts.fiveScrews())
++      .startWith(Parts.fiveScrews())
++      .buffer(Carpenter.SCREWS_FOR_TABLE);
  
-         tableObservable.subscribe(out::println);
-     }
-@@ -48,9 +59,12 @@
-     @Test
-     public void flatMapZip_makeSomeSofa() {
-         Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
-+        Observable<List<Rivet>> screwsObservable = Parts.boxOfTenScrews()
-+                .concatWith(Parts.boxOfTenScrews())
-+                .flatMap(Parts::rivet)
-+                .buffer(Carpenter.RIVETS_FOR_SOFA);
+-    // TODO: We can achieve the same with just putting twice fiveScrews from Parts at the start of the Screws Observable
+-    Observable<Table> tableObservable = null;
++    Observable<Table> tableObservable = logObservable.zipWith(screwsObservable, Carpenter::table);
  
--        // TODO: Now Carpenter needs some Rivets to do Sofa, he can use flatMap with Parts.rivet to get some rivets needed for Sofas
--        Observable<Sofa> sofaObservable = null;
-+        Observable<Sofa> sofaObservable = logObservable.zipWith(screwsObservable, Carpenter::sofa);
+-//  tableObservable.subscribe(out::println);
++    tableObservable.subscribe(System.out::println);
+   }
  
-         sofaObservable.subscribe(out::println);
-     }
+   @Test
+   public void flatMapZip_makeSomeSofa() {
+     Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);
++    Observable<List<Rivet>> screwsObservable = Parts.boxOfTenScrews()
++      .concatWith(Parts.boxOfTenScrews())
++      .flatMap(Parts::rivet)
++      .buffer(Carpenter.RIVETS_FOR_SOFA);
+ 
+-    // TODO: Now Carpenter needs some Rivets to do Sofa, he can use flatMap with Parts.rivet to get some rivets needed for Sofas
+-    Observable<Sofa> sofaObservable = null;
++    Observable<Sofa> sofaObservable = logObservable.zipWith(screwsObservable, Carpenter::sofa);
+ 
+-//  sofaObservable.subscribe(out::println);
++    sofaObservable.subscribe(System.out::println);
+   }
+ }
