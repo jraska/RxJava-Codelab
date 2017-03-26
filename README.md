@@ -1,5 +1,7 @@
 # RxJava Basics Codelab
 
+[![Build Status](https://travis-ci.org/jraska/RxJava-Codelab.svg?branch=master)](https://travis-ci.org/jraska/RxJava-Codelab)
+
 ## Prerequisites
  0. Java 8 SDK
  0. Android Studio or IntelliJ (any edition)
