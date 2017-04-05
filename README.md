@@ -4,15 +4,9 @@
 
 ## Introduction
 Reactive programming is mentioned everywhere these days. It solves many common issues of imperative programming
-in an elegant way and dozens of libraries give developers powerful tools to make their everyday life easier.
-However, it takes time to learn how to wield these tools as they are often difficult to understand
-and they can cause more harm than good if used improperly.
+in an elegant way. Dozens of libraries are springing up, giving developers access to powerful tools that make their everyday development life easier. However, it can take time to learn how to wield these tools effectively as they are often difficult to understand and if used improperly they can sometimes do more harm than good.
 
-We will go through common basics of these tools with the RxJava in use
-to demonstrate and get used to main thoughts of the ReactiveX standard.
-We will dive into the waters of its beauty with our mindset switched
- to reactive and as we explore, the key ideas will became clear to
- us. These ideas will keep us greedy to learn more, as there is huge world to conquer.
+This codelab will go through the RxJava basics, in order to demonstrate the main concepts and common use-cases of the ReactiveX framework, as well as reactive programming in general. It should make RxJava and reactive programming much clearer to you and give you lots of ideas of when and where you might want to use it. Once you have seen what it can do, you won't want to go back to how you were programming before!
 
 ## Prerequisites
  0. Java 8 SDK
