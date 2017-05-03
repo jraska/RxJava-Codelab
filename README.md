@@ -10,12 +10,12 @@ This codelab will go through the RxJava basics, in order to demonstrate the main
 
 ## Prerequisites
  0. Java 8 SDK
- 0. Android Studio or IntelliJ (any edition)
+ 0. IntelliJ (any edition) or Android Studio
 
 
 ## Project setup
  0. Clone this repo (GitHub Desktop, SourceTree or `git clone https://github.com/jraska/RxJava-Codelab.git`)
- 0. Open it in Android Studio or IntelliJ
+ 0. Open it in IntelliJ or Android Studio 
  0. Run `./gradlew build` in Terminal
  0. Try to run `SetupTest` from your IDE
  0. Call for help if it doesn't work
