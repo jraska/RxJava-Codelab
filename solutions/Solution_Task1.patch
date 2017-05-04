@@ -3,7 +3,7 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(date 1493904049000)
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(date 1493905430000)
 +++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(revision )
 @@ -2,24 +2,39 @@
  
@@ -46,6 +46,6 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 +  }
 +
 +  static boolean isOdd(int value) {
-+    return value % 2 == 0;
++    return value % 2 == 1;
    }
  }
