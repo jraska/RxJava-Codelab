@@ -1,9 +1,18 @@
 package com.jraska.rx.codelab;
 
-import com.jraska.rx.codelab.forest.*;
-import io.reactivex.Observable;
+import com.jraska.rx.codelab.forest.BasketOfWood;
+import com.jraska.rx.codelab.forest.Fireplace;
+import com.jraska.rx.codelab.forest.Firewood;
+import com.jraska.rx.codelab.forest.Forest;
+import com.jraska.rx.codelab.forest.Log;
+import com.jraska.rx.codelab.forest.Lumberjack;
+import com.jraska.rx.codelab.forest.Tools;
+import com.jraska.rx.codelab.forest.Tree;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import io.reactivex.Observable;
 
 public class Task2_TransformationsCuttingTheForest {
   Fireplace fireplace;
@@ -25,7 +34,7 @@ public class Task2_TransformationsCuttingTheForest {
 
   @Test
   public void flatMap_chainSawProducesMoreLogs() {
-    // TODO:  Cutting wood by handSaw is not efective, lets use chainSaw now
+    // TODO:  Cutting wood by handSaw is not effective, lets use chainSaw now
     Observable<Firewood> woodObservable = null;
 //  fireplace.subscribeForBurn(woodObservable);
   }

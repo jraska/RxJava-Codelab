@@ -35,7 +35,7 @@ public class Task5_IntoPractice {
 
   @Test
   public void zip_subscribeOn_twoRequestsInParallel() {
-    // TODO: Perform two get requests and print their ids, requests shoudl run in parallel
+    // TODO: Perform two get requests and print their ids, requests should run in parallel
     // NOTE: use blockingSubscribe to stop test from finishing before the result comes back
   }
 
