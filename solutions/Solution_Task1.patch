@@ -3,21 +3,21 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(date 1490535561000)
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(date 1493904049000)
 +++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task1_Basics.java	(revision )
-@@ -1,25 +1,39 @@
- package com.jraska.rx.codelab;
+@@ -2,24 +2,39 @@
  
-+import io.reactivex.Observable;
  import org.junit.Test;
  
++import io.reactivex.Observable;
++
  public class Task1_Basics {
    @Test
    public void dummyObservable() {
 -    // TODO:  Create Observable with single String value, subscribe to it and print it to console (Observable.just)
-+    Observable<Integer> integerObservable = Observable.just(1);
++    Observable<String> stringObservable = Observable.just("Hello Rx");
 +
-+    integerObservable.subscribe(System.out::println);
++    stringObservable.subscribe(System.out::println);
    }
  
    @Test
