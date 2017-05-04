@@ -3,18 +3,18 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java	(date 1490535738000)
+--- rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java	(date 1493905307000)
 +++ rx-codelab/src/test/java/com/jraska/rx/codelab/Task2_TransformationsCuttingTheForest.java	(revision )
-@@ -5,6 +5,8 @@
+@@ -12,6 +12,8 @@
  import org.junit.Before;
  import org.junit.Test;
  
 +import java.util.concurrent.TimeUnit;
 +
- public class Task2_TransformationsCuttingTheForest {
-   Fireplace fireplace;
+ import io.reactivex.Observable;
  
-@@ -16,47 +18,53 @@
+ public class Task2_TransformationsCuttingTheForest {
+@@ -25,47 +27,53 @@
    @Test
    public void map_fromOnePieceExactlyToOnePieceOfOtherStuff() {
      Observable<Tree> treeObservable = Lumberjack.cut(Forest.AMAZON);
@@ -30,7 +30,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  
    @Test
    public void flatMap_chainSawProducesMoreLogs() {
--    // TODO:  Cutting wood by handSaw is not efective, lets use chainSaw now
+-    // TODO:  Cutting wood by handSaw is not effective, lets use chainSaw now
 -    Observable<Firewood> woodObservable = null;
 -//  fireplace.subscribeForBurn(woodObservable);
 +    Observable<Firewood> woodObservable = Lumberjack.cut(Forest.AMAZON)
