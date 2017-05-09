@@ -5,6 +5,7 @@ import com.jraska.rx.codelab.http.HttpModule;
 import com.jraska.rx.codelab.http.RequestInfo;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 import io.reactivex.schedulers.Schedulers;
 
+@Ignore // to avoid run those all the time and hitting http bin
 public class Solution_Task5_IntoPractice {
   HttpBinApi httpBinApi;
 
