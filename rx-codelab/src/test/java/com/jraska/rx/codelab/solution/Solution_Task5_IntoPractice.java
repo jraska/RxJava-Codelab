@@ -65,11 +65,11 @@ public class Solution_Task5_IntoPractice {
     httpBinApi.getRequest()
       .subscribeOn(Schedulers.io())
       .observeOn(Schedulers.single())
-      .doOnNext(Solution_Task5_IntoPractice::printWithThreadId)
+      .doOnNext(this::printWithThreadId)
       .zipWith(httpBinApi.getRequest()
         .subscribeOn(Schedulers.io()), (info, info2) -> ids(info, info2))
       .observeOn(Schedulers.single())
-      .doOnNext(Solution_Task5_IntoPractice::printWithThreadId)
+      .doOnNext(this::printWithThreadId)
       .blockingSubscribe();
   }
 
@@ -85,7 +85,7 @@ public class Solution_Task5_IntoPractice {
     return ids;
   }
 
-  static void printWithThreadId(Object object) {
-    System.out.println(object + ", Thread id: " + Thread.currentThread().getId());
+  void printWithThreadId(Object object) {
+    System.out.println("Thread id: " + Thread.currentThread().getId() + ", " + object);
   }
 }

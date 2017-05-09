@@ -41,7 +41,7 @@ public class Task5_IntoPractice {
 
   @Test
   public void zip_subscribeOn_twoSerialRequestsWithScheduler() {
-    // TODO: Use Scheduler.single() to run GET requests in serial order, but be scheduled out of current thread
+    // TODO: Use Schedulers.single() to run GET requests in serial order, but be scheduled out of current thread
   }
 
   @Test
@@ -61,7 +61,7 @@ public class Task5_IntoPractice {
     return ids;
   }
 
-  static void printWithThreadId(Object object) {
-    System.out.println(object + ", Thread id: " + Thread.currentThread().getId());
+  void printWithThreadId(Object object) {
+    System.out.println("Thread id: " + Thread.currentThread().getId() + ", " + object);
   }
 }
