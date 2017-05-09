@@ -13,6 +13,6 @@ public interface GitHubApi {
   @GET("/users?since=0")
   Observable<List<GitHubUser>> getFirstUsers();
 
-  @GET("/users/{login}/repos?type=all")
+  @GET("/users/{login}/repos")
   Observable<List<GitHubRepo>> getRepos(@Path("login") String login);
 }

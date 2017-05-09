@@ -6,12 +6,10 @@ import com.jraska.rx.codelab.http.HttpModule;
 import com.jraska.rx.codelab.http.UserWithRepos;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import io.reactivex.schedulers.Schedulers;
 
-@Ignore // to avoid running out of GitHub rate limit too soon
 public class Solution_Task6_IntoPractice_GitHub {
   private static final String LOGIN = "defunkt"; // One of GitHub founders. <3 GitHub <3
 
