@@ -10,14 +10,14 @@ import org.junit.Test;
 
 import io.reactivex.schedulers.Schedulers;
 
-public class Solution_Task6_IntoPractice_GitHub {
+public class Solution_Task5_IntoPractice_GitHub {
   private static final String LOGIN = "defunkt"; // One of GitHub founders. <3 GitHub <3
 
   GitHubApi gitHubApi;
 
   @Before
   public void before() {
-    gitHubApi = HttpModule.gitHubApi();
+    gitHubApi = HttpModule.mockedGitHubApi();
   }
 
   @Test

@@ -6,15 +6,13 @@ import com.jraska.rx.codelab.http.GitHubUser;
 import com.jraska.rx.codelab.http.HttpModule;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 
-@Ignore // to avoid running out of GitHub rate limit too soon
-public class Task6_IntoPractice_GitHub {
+public class Task5_IntoPractice_GitHub {
   private static final String LOGIN = "defunkt"; // One of GitHub founders. <3 GitHub <3
 
   GitHubApi gitHubApi;

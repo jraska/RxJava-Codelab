@@ -1,7 +1,7 @@
 package com.jraska.rx.codelab;
 
 import com.jraska.rx.codelab.http.HttpModule;
-import com.jraska.rx.codelab.http.RequestInfo;
+import com.jraska.rx.codelab.http.bin.RequestInfo;
 import org.junit.Test;
 
 import java.io.IOException;
