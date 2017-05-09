@@ -8,4 +8,9 @@ public final class Forest {
   private Forest(int countOfTrees) {
     this.countOfTrees = countOfTrees;
   }
+
+  @Override
+  public String toString() {
+    return "Forest size=" + countOfTrees;
+  }
 }

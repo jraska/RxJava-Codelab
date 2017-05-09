@@ -1,6 +1,8 @@
 package com.jraska.rx.codelab.furniture;
 
 public final class Sofa {
-  Sofa() {
+  @Override
+  public String toString() {
+    return "Sofa";
   }
 }

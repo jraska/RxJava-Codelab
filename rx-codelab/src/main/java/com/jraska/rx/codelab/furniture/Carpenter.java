@@ -26,7 +26,7 @@ public final class Carpenter {
   }
 
   public static Sofa sofa(Log log, List<Rivet> twentyRivets) {
-    if (twentyRivets.size() < SCREWS_FOR_TABLE) {
+    if (twentyRivets.size() < RIVETS_FOR_SOFA) {
       throw new IllegalArgumentException("I cannot do table out of " + twentyRivets.size() + " rivets!");
     }
 

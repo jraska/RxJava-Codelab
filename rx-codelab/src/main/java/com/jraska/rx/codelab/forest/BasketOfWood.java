@@ -14,4 +14,9 @@ public final class BasketOfWood {
 
     this.firewood = firewood;
   }
+
+  @Override
+  public String toString() {
+    return "Basket of " + firewood.size() + " firewood pieces";
+  }
 }

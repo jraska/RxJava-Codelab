@@ -6,4 +6,8 @@ public final class Lumberjack {
   public static Observable<Tree> cut(Forest forest) {
     return Observable.range(1, forest.countOfTrees).map(Tree::new);
   }
+
+  private Lumberjack() {
+    throw new AssertionError("No instances");
+  }
 }

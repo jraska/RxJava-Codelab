@@ -16,4 +16,9 @@ public final class Fireplace {
   public void subscribeForBasketBurn(Observable<BasketOfWood> basketWoodObservable) {
     basketWoodObservable.subscribe(bunchOfWood -> out.println("#" + ++basketBurnOrdinal + " What a great fire!"));
   }
+
+  @Override
+  public String toString() {
+    return "Fireplace";
+  }
 }
