@@ -1,7 +1,5 @@
 package com.jraska.rx.codelab.http;
 
-import com.jraska.rx.codelab.http.bin.HttpBinApi;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
