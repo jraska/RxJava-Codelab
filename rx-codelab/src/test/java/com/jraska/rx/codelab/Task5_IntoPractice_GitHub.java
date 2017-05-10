@@ -19,7 +19,7 @@ public class Task5_IntoPractice_GitHub {
 
   @Before
   public void before() {
-    gitHubApi = HttpModule.gitHubApi();
+    gitHubApi = HttpModule.mockedGitHubApi();
   }
 
   @Test
