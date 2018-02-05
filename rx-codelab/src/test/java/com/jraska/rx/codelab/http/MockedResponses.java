@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Protocol;
 import okhttp3.Request;
@@ -41,7 +40,7 @@ final class MockedResponses {
   private RealResponseBody realJsonBody(String rawResponse) {
     Source source = Okio.source(new ByteArrayInputStream(rawResponse.getBytes()));
     BufferedSource buffer = Okio.buffer(source);
-    return new RealResponseBody(Headers.of("Content-Type", "application/json"), buffer);
+    return new RealResponseBody("application/json", 0, buffer);
   }
 
   private static Map<HttpUrl, String> initMap() {
