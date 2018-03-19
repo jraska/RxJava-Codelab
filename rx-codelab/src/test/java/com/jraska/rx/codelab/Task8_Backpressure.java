@@ -24,33 +24,33 @@ public class Task8_Backpressure {
 
   @Test
   public void backpressureFail() {
-    // TODO(josef): Make subscription to amazonRiver fail on backpressure exception (observeOn needed), use reallySlowConsumer
+    // TODO: Make subscription to amazonRiver fail on backpressure exception (observeOn needed), use reallySlowConsumer
   }
 
   @Test
   public void noBackpressure() {
-    // TODO(josef): Modify example above to ignore backpressure and continue forever (toObservable())
+    // TODO: Modify example above to ignore backpressure and continue forever (toObservable())
   }
 
   @Test
   public void onBackpressureDrop() {
-    // TODO(josef): Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowConsumer
+    // TODO: Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowConsumer
   }
 
   @Test
   public void backpressureSample() {
-    // TODO(josef): Avoid backpressure errors by sampling the stream by consumer processing time
+    // TODO: Avoid backpressure errors by sampling the stream by consumer processing time
   }
 
   @Test
   public void backpressureBatching() {
-    // TODO(josef): batch values and process them with batchConsumer()
-    // TODO(josef): Experiment with different sizes of buffer
+    // TODO: batch values and process them with batchConsumer()
+    // TODO: Experiment with different sizes of buffer
   }
 
   @Test
   public void onBackpressureBuffer() {
-    // TODO(josef): Try different sizes of backpressure buffer to better understand how internal buffers work
+    // TODO: Try different sizes of backpressure buffer to better understand how internal buffers work
   }
 
   Consumer<Water> slowConsumer() {

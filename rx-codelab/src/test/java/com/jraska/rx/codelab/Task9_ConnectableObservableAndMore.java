@@ -2,16 +2,11 @@ package com.jraska.rx.codelab;
 
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
-import com.jraska.rx.codelab.http.RequestInfo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.reactivex.Observable;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.processors.BehaviorProcessor;
-import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.jraska.rx.codelab.Utils.sleep;
@@ -22,60 +17,33 @@ public class Task9_ConnectableObservableAndMore {
   @Before
   public void before() {
     httpBinApi = HttpModule.httpBinApi();
-
-    RxJavaPlugins.setOnObservableSubscribe((observable, observer) -> {
-      System.out.println(observable);
-      return observer;
-    });
   }
 
   @Test
   public void publish_refCount_singleRequest() {
-    Observable<RequestInfo> request = httpBinApi.getRequest()
-      .subscribeOn(Schedulers.io())
-      .publish()
-      .refCount();
-
-    request.subscribe();
-    request.subscribe();
+    // TODO: execute httpbin get request on io scheduler, subscribe twice and make sure the request happens just once - publish().refCount()
   }
 
   @Test
-  public void autoConnect_singleRequest() {
-    Observable<RequestInfo> request = httpBinApi.getRequest()
-      .subscribeOn(Schedulers.io())
-      .publish()
-      .autoConnect();
-
-    request.subscribe();
-    request.subscribe();
-  }
-
-  @Test
-  public void publishProcessor_multiCastResponse() {
-    PublishProcessor<RequestInfo> publishProcessor = PublishProcessor.create();
-
-    Observable<RequestInfo> request = httpBinApi.getRequest().subscribeOn(Schedulers.io());
-
-    publishProcessor.subscribe(System.out::println);
-    publishProcessor.subscribe(System.out::println);
-    publishProcessor.subscribe(System.out::println);
-
-    request.subscribe(publishProcessor::onNext, publishProcessor::onError);
+  public void replayProcessor_replayValues() {
+    // TODO: Create ReplayProcessor<String>
+    // TODO: Subscribe with logging into console
+    // TODO: Push two strings by onNext()
+    // TODO: Subscribe again logging into console
   }
 
   @Test
   public void behaviorProcessor_storeResponse() {
-    BehaviorProcessor<RequestInfo> publishProcessor = BehaviorProcessor.create();
+    // TODO: BehaviorProcessor<RequestInfo> to store and publish value of httpbin request
+    // TODO: After some time after request, subscribe again to the processor
+  }
 
-    Observable<RequestInfo> request = httpBinApi.getRequest().subscribeOn(Schedulers.io());
-    publishProcessor.subscribe(System.out::println);
+  @Test
+  public void twoRequestsInParallel_modifiedWithPlugins() {
+    // TODO: Make this two parallel requests runs in serial order - RxJavaPlugins.setIoSchedulerHandler
 
-    request.subscribe(publishProcessor::onNext, publishProcessor::onError);
-
-    sleep(2000);
-
-    publishProcessor.subscribe(System.out::println);
+    httpBinApi.getRequest().subscribeOn(Schedulers.io()).subscribe(System.out::println);
+    httpBinApi.getRequest().subscribeOn(Schedulers.io()).subscribe(System.out::println);
   }
 
   @After
