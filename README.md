@@ -13,12 +13,12 @@ The advanced codelab will take you more into deep of reactive world, we will go 
 
 ## Prerequisites
  0. Java 8 SDK
- 0. IntelliJ (any edition) or Android Studio
+ 0. IntelliJ (any edition) or any Java IDE you like
 
 
 ## Project setup
  0. Clone this repo (GitHub Desktop, SourceTree or `git clone https://github.com/jraska/RxJava-Codelab.git`)
- 0. Open it in IntelliJ or Android Studio
+ 0. Open it in IntelliJ or other IDE
  0. Try to run `SetupTest` from your IDE
  0. Call for help if it doesn't work
 
