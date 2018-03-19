@@ -21,7 +21,7 @@ public final class Earth {
     return thamesRiver.flow().toObservable();
   }
 
-  public Observable<Barrel> gimmeOil() {
+  public Observable<Barrel> oilWell() {
     return Observable.range(1, 10).map(Barrel::new);
   }
 }

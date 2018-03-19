@@ -17,16 +17,16 @@ import io.reactivex.schedulers.Schedulers;
 import static com.jraska.rx.codelab.Utils.sleep;
 
 public class Task8_Backpressure {
-  Earth earth;
+  Earth theEarth;
 
   @Before
   public void before() {
-    earth = Universe.bigBang().planetEarth();
+    theEarth = Universe.bigBang().planetEarth();
   }
 
   @Test
   public void noBackpressure() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .toObservable()
       .observeOn(Schedulers.newThread())
       .subscribe(reallySlowConsumer());
@@ -34,14 +34,14 @@ public class Task8_Backpressure {
 
   @Test
   public void backpressureFail() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .observeOn(Schedulers.newThread())
       .subscribe(reallySlowConsumer());
   }
 
   @Test
   public void onBackpressureDrop() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .onBackpressureDrop(water -> System.out.println("On Drop " + water))
       .observeOn(Schedulers.newThread())
       .subscribe(slowConsumer());
@@ -49,7 +49,7 @@ public class Task8_Backpressure {
 
   @Test
   public void backpressureSample() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .sample(25, TimeUnit.MILLISECONDS)
       .observeOn(Schedulers.newThread())
       .subscribe(slowConsumer());
@@ -57,7 +57,7 @@ public class Task8_Backpressure {
 
   @Test
   public void backpressureBatching() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .buffer(2)
       .observeOn(Schedulers.newThread())
       .subscribe(batchConsumer());
@@ -65,7 +65,7 @@ public class Task8_Backpressure {
 
   @Test
   public void onBackpressureBuffer() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .onBackpressureBuffer(10)
       .observeOn(Schedulers.newThread())
       .subscribe(slowConsumer());
@@ -73,7 +73,7 @@ public class Task8_Backpressure {
 
   @Test
   public void onBackpressureLatest() {
-    earth.amazonRiver()
+    theEarth.amazonRiver()
       .onBackpressureLatest()
       .observeOn(Schedulers.newThread())
       .subscribe(slowConsumer());

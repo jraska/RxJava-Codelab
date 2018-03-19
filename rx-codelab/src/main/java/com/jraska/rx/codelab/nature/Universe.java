@@ -13,15 +13,15 @@ public final class Universe {
 
     River thames = new River(100);
     thames.startFlow();
-    earth = new Earth(amazon, thames);
+    theEarth = new Earth(amazon, thames);
   }
 
-  private Earth earth;
+  private Earth theEarth;
 
   private Universe() {
   }
 
   public Earth planetEarth() {
-    return earth;
+    return theEarth;
   }
 }
