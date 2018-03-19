@@ -1,4 +1,4 @@
-package com.jraska.rx.codelab;
+package com.jraska.rx.codelab.solution;
 
 import com.jraska.rx.codelab.nature.Earth;
 import com.jraska.rx.codelab.nature.Universe;
@@ -9,12 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.jraska.rx.codelab.Utils.sleep;
 
-public class Task8_Backpressure {
+public class Solution_Task8_Backpressure {
   Earth theEarth;
 
   @Before
@@ -24,33 +26,49 @@ public class Task8_Backpressure {
 
   @Test
   public void backpressureFail() {
-    // TODO(josef): Make subscription to amazonRiver fail on backpressure exception (observeOn needed), use reallySlowConsumer
+    theEarth.amazonRiver()
+      .observeOn(Schedulers.newThread())
+      .subscribe(reallySlowConsumer());
   }
 
   @Test
   public void noBackpressure() {
-    // TODO(josef): Modify example above to ignore backpressure and continue forever (toObservable())
+    theEarth.amazonRiver()
+      .toObservable()
+      .observeOn(Schedulers.newThread())
+      .subscribe(reallySlowConsumer());
   }
 
   @Test
   public void onBackpressureDrop() {
-    // TODO(josef): Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowConsumer
+    theEarth.amazonRiver()
+      .onBackpressureDrop(water -> System.out.println("On Drop " + water))
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
   }
 
   @Test
   public void backpressureSample() {
-    // TODO(josef): Avoid backpressure errors by sampling the stream by consumer processing time
+    theEarth.amazonRiver()
+      .sample(25, TimeUnit.MILLISECONDS)
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
   }
 
   @Test
   public void backpressureBatching() {
-    // TODO(josef): batch values and process them with batchConsumer()
-    // TODO(josef): Experiment with different sizes of buffer
+    theEarth.amazonRiver()
+      .buffer(2)
+      .observeOn(Schedulers.newThread())
+      .subscribe(batchConsumer());
   }
 
   @Test
   public void onBackpressureBuffer() {
-    // TODO(josef): Try different sizes of backpressure buffer to better understand how internal buffers work
+    theEarth.amazonRiver()
+      .onBackpressureBuffer(10)
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
   }
 
   Consumer<Water> slowConsumer() {

@@ -2,7 +2,6 @@ package com.jraska.rx.codelab.nature;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 
 public final class Earth {
   private final River amazonRiver;
@@ -14,7 +13,7 @@ public final class Earth {
   }
 
   public Flowable<Water> amazonRiver() {
-    return amazonRiver.flow().observeOn(Schedulers.newThread());
+    return amazonRiver.flow();
   }
 
   public Observable<Water> thamesRiver() {
