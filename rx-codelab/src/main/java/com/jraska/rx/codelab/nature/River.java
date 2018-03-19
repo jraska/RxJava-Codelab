@@ -7,17 +7,17 @@ import io.reactivex.flowables.ConnectableFlowable;
 import io.reactivex.schedulers.Schedulers;
 
 public final class River {
-  private final Flowable<Water> coldObservable;
+  private final Flowable<Water> coldWaterFlowable;
   private ConnectableFlowable<Water> stream;
 
   River(long period) {
-    coldObservable = Flowable.interval(period, TimeUnit.MILLISECONDS, Schedulers.computation())
+    coldWaterFlowable = Flowable.interval(period, TimeUnit.MILLISECONDS, Schedulers.computation())
       .map(Water::new)
       .timeout(5, TimeUnit.MINUTES); // in case someone forgets tests running
   }
 
   void startFlow() {
-    stream = coldObservable.publish();
+    stream = coldWaterFlowable.publish();
     stream.connect();
   }
 

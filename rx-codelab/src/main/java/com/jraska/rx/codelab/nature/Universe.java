@@ -8,7 +8,7 @@ public final class Universe {
   }
 
   private void evolve() {
-    River amazon = new River(10);
+    River amazon = new River(5);
     amazon.startFlow();
 
     River thames = new River(100);

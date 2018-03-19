@@ -4,10 +4,12 @@ import com.jraska.rx.codelab.nature.Earth;
 import com.jraska.rx.codelab.nature.Universe;
 import com.jraska.rx.codelab.nature.Water;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -23,28 +25,83 @@ public class Task8_Backpressure {
   }
 
   @Test
-  public void test() {
+  public void noBackpressure() {
     earth.amazonRiver()
-//      .sample(20, TimeUnit.MILLISECONDS)
-      .buffer(4)
+      .toObservable()
+      .observeOn(Schedulers.newThread())
+      .subscribe(reallySlowConsumer());
+  }
+
+  @Test
+  public void backpressureFail() {
+    earth.amazonRiver()
+      .observeOn(Schedulers.newThread())
+      .subscribe(reallySlowConsumer());
+  }
+
+  @Test
+  public void onBackpressureDrop() {
+    earth.amazonRiver()
       .onBackpressureDrop(water -> System.out.println("On Drop " + water))
       .observeOn(Schedulers.newThread())
-      .subscribe(batchConsumer());
+      .subscribe(slowConsumer());
+  }
 
-    sleep(10_000);
+  @Test
+  public void backpressureSample() {
+    earth.amazonRiver()
+      .sample(25, TimeUnit.MILLISECONDS)
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
+  }
+
+  @Test
+  public void backpressureBatching() {
+    earth.amazonRiver()
+      .buffer(2)
+      .observeOn(Schedulers.newThread())
+      .subscribe(batchConsumer());
+  }
+
+  @Test
+  public void onBackpressureBuffer() {
+    earth.amazonRiver()
+      .onBackpressureBuffer(10)
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
+  }
+
+  @Test
+  public void onBackpressureLatest() {
+    earth.amazonRiver()
+      .onBackpressureLatest()
+      .observeOn(Schedulers.newThread())
+      .subscribe(slowConsumer());
   }
 
   Consumer<Water> slowConsumer() {
     return water -> {
-      sleep(18);
+      sleep(25);
+      System.out.println(water);
+    };
+  }
+
+  Consumer<Water> reallySlowConsumer() {
+    return water -> {
+      sleep(100);
       System.out.println(water);
     };
   }
 
   Consumer<List<Water>> batchConsumer() {
     return water -> {
-      sleep(40);
+      sleep(100);
       System.out.println(water);
     };
+  }
+
+  @After
+  public void after() {
+    sleep(5_000);
   }
 }

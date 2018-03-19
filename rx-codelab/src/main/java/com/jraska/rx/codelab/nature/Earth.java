@@ -14,11 +14,14 @@ public final class Earth {
   }
 
   public Flowable<Water> amazonRiver() {
-    return amazonRiver.flow()
-      .observeOn(Schedulers.newThread());
+    return amazonRiver.flow().observeOn(Schedulers.newThread());
   }
 
   public Observable<Water> thamesRiver() {
     return thamesRiver.flow().toObservable();
+  }
+
+  public Observable<Barrel> gimmeOil() {
+    return Observable.range(1, 10).map(Barrel::new);
   }
 }

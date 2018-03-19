@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.processors.BehaviorProcessor;
 import io.reactivex.processors.PublishProcessor;
@@ -20,6 +18,16 @@ import static com.jraska.rx.codelab.Utils.sleep;
 
 public class Task9_ConnectableObservableAndMore {
   HttpBinApi httpBinApi;
+
+  @Before
+  public void before() {
+    httpBinApi = HttpModule.httpBinApi();
+
+    RxJavaPlugins.setOnObservableSubscribe((observable, observer) -> {
+      System.out.println(observable);
+      return observer;
+    });
+  }
 
   @Test
   public void publish_refCount_singleRequest() {
@@ -70,21 +78,8 @@ public class Task9_ConnectableObservableAndMore {
     publishProcessor.subscribe(System.out::println);
   }
 
-  @Before
-  public void before() {
-    httpBinApi = HttpModule.httpBinApi();
-
-    RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
-      @Override
-      public Observer apply(Observable observable, Observer observer) throws Exception {
-        System.out.println(observable);
-        return observer;
-      }
-    });
-  }
-
   @After
   public void after() {
-    sleep(3000);
+    sleep(2000);
   }
 }
