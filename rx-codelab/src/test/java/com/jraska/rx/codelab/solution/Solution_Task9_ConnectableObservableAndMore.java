@@ -72,5 +72,6 @@ public class Solution_Task9_ConnectableObservableAndMore {
   @After
   public void after() {
     sleep(2000);
+    RxJavaPlugins.reset();
   }
 }

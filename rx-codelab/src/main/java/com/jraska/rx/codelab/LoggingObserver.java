@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable;
 
 import static java.lang.System.out;
 
-public class LoggingObserver<T> {
+public final class LoggingObserver<T> {
   private final String tag;
 
   public LoggingObserver() {

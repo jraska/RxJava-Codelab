@@ -2,7 +2,7 @@ package com.jraska.rx.codelab.nature;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Barrel {
+public final class Barrel {
   private static final AtomicInteger NEXT_ID = new AtomicInteger(0);
 
   private final int id;
