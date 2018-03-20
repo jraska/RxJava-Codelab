@@ -2,12 +2,13 @@ package com.jraska.rx.codelab;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
-import io.reactivex.Observer;
+import io.reactivex.Single;
+import io.reactivex.SingleTransformer;
 import io.reactivex.disposables.Disposable;
 
 import static java.lang.System.out;
 
-public class LoggingObserver<T> implements Observer<T> {
+public final class LoggingObserver<T> {
   private final String tag;
 
   public LoggingObserver() {
@@ -18,28 +19,39 @@ public class LoggingObserver<T> implements Observer<T> {
     this.tag = tag;
   }
 
-  @Override
-  public void onSubscribe(Disposable d) {
+  void onSubscribe(Disposable d) {
     out.println(String.format("%s: onSubscribe(%s)", tag, d));
   }
 
-  @Override
-  public void onNext(T next) {
+  void onNext(T next) {
     out.println(String.format("%s: onNext(%s)", tag, next));
   }
 
-  @Override
-  public void onError(Throwable e) {
+  void onSuccess(T next) {
+    out.println(String.format("%s: onSuccess(%s)", tag, next));
+  }
+
+  void onError(Throwable e) {
     out.println(String.format("%s: onError(%s)", tag, e));
   }
 
-  @Override
-  public void onComplete() {
+  void onComplete() {
     out.println(String.format("%s: onCompleted", tag));
   }
 
   public static <T> ObservableTransformer<T, T> transformer() {
     return LoggingObserver::append;
+  }
+
+  public static <T> SingleTransformer<T, T> singleTransformer() {
+    return LoggingObserver::append;
+  }
+
+  public static <T> Single<T> append(Single<T> observable) {
+    LoggingObserver<Object> loggingObserver = new LoggingObserver<>();
+    return observable.doOnSubscribe(loggingObserver::onSubscribe)
+      .doOnSuccess(loggingObserver::onSuccess)
+      .doOnError(loggingObserver::onError);
   }
 
   public static <T> Observable<T> append(Observable<T> observable) {

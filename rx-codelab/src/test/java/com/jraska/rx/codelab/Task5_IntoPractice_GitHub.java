@@ -12,6 +12,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
+import static com.jraska.rx.codelab.Utils.sleep;
+
 public class Task5_IntoPractice_GitHub {
   private static final String LOGIN = "defunkt"; // One of GitHub founders. <3 GitHub <3
 
@@ -26,7 +28,7 @@ public class Task5_IntoPractice_GitHub {
   public void map_printUser() {
     Observable<GitHubUser> userObservable = gitHubApi.getUser(LOGIN);
 
-    // TODO(josef): Map GitHubUser object into User and print it out. User has toString implemented.
+    // TODO Map GitHubUser object into User and print it out. User has toString implemented.
     // NOTE: You can find GitHubConverter useful for converting between different object types.
   }
 
@@ -36,7 +38,7 @@ public class Task5_IntoPractice_GitHub {
 
 //    Observable<GitHubUser> userObservable = gitHubApi.getUser(loginVariable);
 
-    // TODO(josef): Pick first user 'login' from the list. Perform another request and print the user.
+    // TODO Pick first user 'login' from the list. Perform another request and print the user.
   }
 
   @Test
@@ -44,7 +46,7 @@ public class Task5_IntoPractice_GitHub {
     Observable<GitHubUser> userObservable = gitHubApi.getUser(LOGIN);
     Observable<List<GitHubRepo>> reposObservable = gitHubApi.getRepos(LOGIN);
 
-    // TODO(josef): Get User with his Repos to create Observable<UserWithRepos> and print the user with repos.
+    // TODO Get User with his Repos to create Observable<UserWithRepos> and print the user with repos.
     // NOTE: You can find GitHubConverter useful for converting between different object types.
   }
 
@@ -53,7 +55,7 @@ public class Task5_IntoPractice_GitHub {
     Observable<GitHubUser> userObservable = gitHubApi.getUser(LOGIN);
     Observable<List<GitHubRepo>> reposObservable = gitHubApi.getRepos(LOGIN);
 
-    // TODO(josef): Get User with his Repos to in parallel to create Observable<UserWithRepos> and print the user with repos.
+    // TODO: Get User with his Repos to in parallel to create Observable<UserWithRepos> and print the user with repos.
     // NOTE: Use Thread.sleep to keep the unit test running, or you can use blockingSubscribe from RxJava
   }
 
@@ -84,11 +86,4 @@ public class Task5_IntoPractice_GitHub {
     System.out.println("Thread id: " + Thread.currentThread().getId() + ", " + object);
   }
 
-  static void sleep(long timeoutMs) {
-    try {
-      Thread.sleep(timeoutMs);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e); // Being lazy now
-    }
-  }
 }
