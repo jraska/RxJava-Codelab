@@ -35,14 +35,13 @@ public class Solution_Task11_Testing {
   @Test
   public void testSubscriber_onHotFlowable() {
     theEarth.amazonRiver()
+      .take(5)
       .test()
       .awaitCount(5)
+      .assertValueCount(5)
       .assertNoTimeout()
       .assertSubscribed()
-      .assertValueCount(5)
       .assertNoErrors()
-      .assertNotComplete()
-      .assertNotTerminated()
       .assertNever(new Water(12345));
   }
 
