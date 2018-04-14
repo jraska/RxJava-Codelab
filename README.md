@@ -38,6 +38,7 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  - Backpressure - Observable vs. Flowable
  - ConnectableObservables, Processors, Plugins, ...
  - Other reactive libraries interoperability
+ - Testing Observables
 
 
 ## Links

@@ -8,7 +8,7 @@ public final class Barrel {
   private final int id;
   private final int ordinal;
 
-  Barrel(int ordinal) {
+  public Barrel(int ordinal) {
     id = NEXT_ID.getAndIncrement();
     this.ordinal = ordinal;
   }
