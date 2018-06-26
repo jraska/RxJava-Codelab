@@ -19,7 +19,7 @@ public class Solution_Task6_SingleCompletableMaybe {
     Single<String> single = Single.just("Hello RxJava again");
 
     single.subscribe(System.out::println);
-    Completable completable = single.toCompletable();
+    Completable completable = single.ignoreElement();
 
     completable.subscribe(() -> System.out.println("Completed"));
   }
