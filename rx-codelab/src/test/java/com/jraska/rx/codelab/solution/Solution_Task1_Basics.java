@@ -13,10 +13,10 @@ public class Solution_Task1_Basics {
   }
 
   @Test
-  public void arrayObservable() {
-    Observable<Integer> arrayObservable = Observable.fromArray(1, 2, 3, 4, 5);
+  public void methodIntoObservable() {
+    Observable<Long> currentTimeObservable = Observable.fromCallable(System::currentTimeMillis);
 
-    arrayObservable.subscribe(System.out::println);
+    currentTimeObservable.subscribe(System.out::println);
   }
 
   @Test

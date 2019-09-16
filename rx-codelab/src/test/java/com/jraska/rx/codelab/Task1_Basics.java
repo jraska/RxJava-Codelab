@@ -9,8 +9,8 @@ public class Task1_Basics {
   }
 
   @Test
-  public void arrayObservable() {
-    // TODO:  Create Observable with ints 1, 2, 3, 4, 5, subscribe to it and print each value to console (Observable.fromArray)
+  public void methodIntoObservable() {
+    // TODO:  Create Observable getting current time, subscribe to it and print value to console (Observable.fromCallable)
   }
 
   @Test
