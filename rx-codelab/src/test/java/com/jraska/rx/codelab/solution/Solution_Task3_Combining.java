@@ -18,7 +18,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class Solution_Task3_CombiningToAssembleFurniture {
+public class Solution_Task3_Combining {
   @Test
   public void zip_doSomeChair() {
     Observable<Log> logObservable = Lumberjack.cut(Forest.AMAZON).map(Tools::handSaw);

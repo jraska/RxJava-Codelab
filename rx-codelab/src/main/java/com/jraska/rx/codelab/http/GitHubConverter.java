@@ -19,4 +19,8 @@ public class GitHubConverter {
       .map(GitHubConverter::convert)
       .collect(Collectors.toList());
   }
+
+  public static UserWithRepos convert(GitHubUser gitHubUser, List<GitHubRepo> gitHubRepos) {
+    return new UserWithRepos(convert(gitHubUser), convert(gitHubRepos));
+  }
 }
