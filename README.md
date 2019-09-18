@@ -29,7 +29,7 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  - Transformations
  - Composing
  - Error handling
- - Schedulers
+ - Threading - Schedulers
 
 
 ## RxJava Advanced Codelab covers
