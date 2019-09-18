@@ -23,7 +23,7 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  0. Call for help if it doesn't work
 
 
-## RxJava Basics Codelab covers
+## RxJava Basics Codelab covers ([pdf](https://drive.google.com/file/d/1ZjWuN9WCVtPVBl5PeeLZuSW2z8cAIWw2/view?usp=sharing))
  - What is a stream? Observable contract
  - How to create Observables
  - Transformations
