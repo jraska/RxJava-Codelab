@@ -1,45 +1,42 @@
 package com.jraska.rx.codelab;
 
-import com.jraska.rx.codelab.furniture.Parts;
-import com.jraska.rx.codelab.furniture.Screw;
-import io.reactivex.Observable;
+import com.jraska.rx.codelab.http.HttpBinApi;
+import com.jraska.rx.codelab.http.HttpModule;
+import io.reactivex.internal.functions.Functions;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import org.junit.Before;
 import org.junit.Test;
 
 public class Task4_ErrorHandling {
-  Observable<Screw> screwsObservable;
-  Observable<Screw> extraScrewsObservable;
+  private HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Before
   public void before() {
-    screwsObservable = Observable.fromIterable(Parts.fiveScrews())
-      .concatWith(Observable.error(new RuntimeException("Damaged screw!")));
-
-    extraScrewsObservable = Observable.fromIterable(Parts.fiveScrews());
+    RxLogging.enableObservableSubscribeLogging();
   }
 
   @Test
   public void printErrorMessage() {
-    // TODO: Print all values and incoming error message
+    // TODO: Subscribe and incoming error message - httpBinApi.failingGet(), subscribe() with 2 parameters
   }
 
   @Test
-  public void emitCustomItemOnError() {
-    // TODO: When an error happens, emit number artificial screw
+  public void onErrorReturnItem_emitCustomItemOnError() {
+    // TODO: When an error happens, emit syntheticBody(), httpBinApi.failingGet()
   }
 
   @Test
-  public void subscribeToExtraObservableOnError() {
-    // TODO: When an error happens, subscribe to extra observable
+  public void onErrorResumeNext_subscribeToExtraObservableOnError() {
+    // TODO: When an error happens, subscribe to extra observable - httpBinApi.backupGet()
   }
 
   @Test
-  public void retryOnError() {
-    Observable<Screw> flakeyObservable = Parts.flakeyScrew();
-    // TODO: Observable is a bit flakey and often fails, use retry to make it always complete
+  public void retry_retryOnError() {
+    // TODO: httpBinApi.flakeyGet is a bit flakey and often fails, use retry to make it always complete
+  }
 
-    for (int i = 0; i < 10; i++) {
-      flakeyObservable.subscribe(System.out::println);
-    }
+  static ResponseBody syntheticBody() {
+    return ResponseBody.create(MediaType.get("application/json"), "{}");
   }
 }

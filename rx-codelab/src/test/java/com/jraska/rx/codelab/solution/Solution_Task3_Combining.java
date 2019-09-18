@@ -1,25 +1,12 @@
 package com.jraska.rx.codelab.solution;
 
 import com.jraska.rx.codelab.RxLogging;
-import com.jraska.rx.codelab.forest.Forest;
-import com.jraska.rx.codelab.forest.Log;
-import com.jraska.rx.codelab.forest.Lumberjack;
-import com.jraska.rx.codelab.forest.Tools;
-import com.jraska.rx.codelab.furniture.Carpenter;
-import com.jraska.rx.codelab.furniture.Chair;
-import com.jraska.rx.codelab.furniture.Parts;
-import com.jraska.rx.codelab.furniture.Rivet;
-import com.jraska.rx.codelab.furniture.Screw;
-import com.jraska.rx.codelab.furniture.Sofa;
-import com.jraska.rx.codelab.furniture.Table;
-
 import com.jraska.rx.codelab.http.*;
+import io.reactivex.Observable;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-
-import io.reactivex.Observable;
 
 public class Solution_Task3_Combining {
   private static final String LOGIN = "defunkt";
