@@ -1,46 +1,50 @@
 package com.jraska.rx.codelab.solution;
 
-import com.jraska.rx.codelab.furniture.Parts;
-import com.jraska.rx.codelab.furniture.Screw;
-
+import com.jraska.rx.codelab.RxLogging;
+import com.jraska.rx.codelab.http.HttpBinApi;
+import com.jraska.rx.codelab.http.HttpModule;
+import io.reactivex.internal.functions.Functions;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.reactivex.Observable;
-
 public class Solution_Task4_ErrorHandling {
-  Observable<Screw> screwsObservable;
-  Observable<Screw> extraScrewsObservable;
+  private HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Before
   public void before() {
-    screwsObservable = Observable.fromIterable(Parts.fiveScrews())
-      .concatWith(Observable.error(new RuntimeException("Damaged screw!")));
-
-    extraScrewsObservable = Observable.fromIterable(Parts.fiveScrews());
+    RxLogging.enableObservableSubscribeLogging();
   }
 
   @Test
   public void printErrorMessage() {
-    screwsObservable.subscribe(System.out::println, throwable -> System.out.println(throwable.getMessage()));
+    httpBinApi.failingGet()
+      .subscribe(System.out::println, System.err::println);
   }
 
   @Test
-  public void emitCustomItemOnError() {
-    screwsObservable.onErrorReturnItem(Parts.screw()).subscribe(System.out::println);
+  public void onErrorReturnItem_emitCustomItemOnError() {
+    httpBinApi.failingGet()
+      .onErrorReturnItem(syntheticBody())
+      .subscribe(System.out::println);
   }
 
   @Test
-  public void subscribeToExtraObservableOnError() {
-    screwsObservable.onErrorResumeNext(extraScrewsObservable).subscribe(System.out::println);
+  public void onErrorResumeNext_subscribeToExtraObservableOnError() {
+    httpBinApi.failingGet()
+      .onErrorResumeNext(httpBinApi.backupGet())
+      .subscribe(System.out::println, Functions.emptyConsumer());
   }
 
   @Test
-  public void retryOnError() {
-    Observable<Screw> flakeyObservable = Parts.flakeyScrew().retry();
+  public void retry_retryOnError() {
+    httpBinApi.flakeyGet()
+      .retry()
+      .subscribe(System.out::println);
+  }
 
-    for (int i = 0; i < 10; i++) {
-      flakeyObservable.subscribe(System.out::println);
-    }
+  static ResponseBody syntheticBody() {
+    return ResponseBody.create(MediaType.get("application/json"), "{}");
   }
 }

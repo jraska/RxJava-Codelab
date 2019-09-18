@@ -1,18 +1,9 @@
 package com.jraska.rx.codelab;
 
-import com.jraska.rx.codelab.forest.Forest;
-import com.jraska.rx.codelab.forest.Log;
-import com.jraska.rx.codelab.forest.Lumberjack;
-import com.jraska.rx.codelab.forest.Tools;
-import com.jraska.rx.codelab.furniture.Chair;
-import com.jraska.rx.codelab.furniture.Sofa;
-import com.jraska.rx.codelab.furniture.Table;
-import com.jraska.rx.codelab.http.*;
-import io.reactivex.Observable;
+import com.jraska.rx.codelab.http.GitHubApi;
+import com.jraska.rx.codelab.http.HttpModule;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 public class Task3_Combining {
 
