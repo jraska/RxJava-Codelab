@@ -2,9 +2,11 @@ package com.jraska.rx.codelab;
 
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
-import com.jraska.rx.codelab.nature.Earth;
-import com.jraska.rx.codelab.nature.Universe;
-
+import com.jraska.rx.codelab.http.RequestInfo;
+import com.jraska.rx.codelab.server.RxServer;
+import com.jraska.rx.codelab.server.RxServerFactory;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,41 +15,44 @@ import static com.jraska.rx.codelab.Utils.sleep;
 
 public class Task7_HotObservables {
 
-  Earth theEarth;
-  HttpBinApi httpBinApi;
+  private RxServer rxServer;
+  private HttpBinApi httpBinApi;
 
   @Before
   public void before() {
-    theEarth = Universe.bigBang().planetEarth();
+    rxServer = RxServerFactory.create();
     httpBinApi = HttpModule.httpBinApi();
 
-    // TODO: Use RxJavaPlugins to hook into OnObservableSubscribe and print out the sobservable class name when triggered
+    RxLogging.enableObservableSubscribeLogging();
   }
 
   @Test
   public void coldObservable() {
-    // TODO: Subscribe twice to oilWell from the Earth and print its values
-    // TODO: It is important to understand why the ids of barrels do not match
-    // TODO: Delay both subscriptions by 250 ms and check what happens
-    // TODO: Lets discuss the subscription logs
+    Observable<RequestInfo> getRequest = httpBinApi.getRequest()
+      .subscribeOn(Schedulers.io());
+
+    // TODO: Subscribe twice to getRequest and print its values, how many http requests it triggers?
+    // TODO: Delay first subscription by 250 ms - delaySubscription()
+    // TODO: Modify getRequest to be able to perform only one http request - share()
   }
 
   @Test
   public void hotObservable() {
-    // TODO: Subscribe twice to thamesRiver from the Earth and print its values
-    // TODO: It is important to understand why the ids of water do match
-    // TODO: Delay both subscriptions by 250 ms and check what happens
-    // TODO: Lets discuss the subscription logs
+    // TODO: Subscribe twice to rxServer.debugLogsHot and print the logs
+    // TODO: Delay first subscription by 250ms - delaySubscription(), how is this different than cold observable
   }
 
   @Test
-  public void createHotObservableThroughProcessor() {
-    // TODO: Create a PublishSubject<RequestInfo> and subscribe three times to it with printing the result
-    // TODO: do HTTP GET request to httpbin.org and publish its values to subject
+  public void createHotObservableThroughSubject() {
+    Observable<RequestInfo> getRequest = httpBinApi.getRequest();
+
+    // TODO: Create a PublishSubject<RequestInfo> and subscribe twice to it with printing the result
+    // TODO: Subscribe to getRequest and publish its values to subject
   }
 
   @After
   public void after() {
     sleep(500);
+    HttpModule.awaitNetworkRequests();
   }
 }

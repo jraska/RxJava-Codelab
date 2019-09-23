@@ -1,30 +1,29 @@
 package com.jraska.rx.codelab;
 
-import com.jraska.rx.codelab.nature.Earth;
-import com.jraska.rx.codelab.nature.Universe;
-import com.jraska.rx.codelab.nature.Water;
-
+import com.jraska.rx.codelab.server.Log;
+import com.jraska.rx.codelab.server.RxServer;
+import com.jraska.rx.codelab.server.RxServerFactory;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import io.reactivex.functions.Consumer;
-
 import static com.jraska.rx.codelab.Utils.sleep;
 
 public class Task8_Backpressure {
-  Earth theEarth;
+  private RxServer rxServer;
 
   @Before
   public void before() {
-    theEarth = Universe.bigBang().planetEarth();
+    rxServer = RxServerFactory.create();
   }
 
   @Test
   public void backpressureFail() {
-    // TODO: Make subscription to amazonRiver fail on backpressure exception (observeOn needed), use reallySlowConsumer
+    // TODO: Subscribe to rxServer.allLogsHot on different thread (observeOn), use reallySlowLogConsumer
   }
 
   @Test
@@ -34,17 +33,12 @@ public class Task8_Backpressure {
 
   @Test
   public void onBackpressureDrop() {
-    // TODO: Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowConsumer
+    // TODO: Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowLogConsumer
   }
 
   @Test
-  public void backpressureSample() {
-    // TODO: Avoid backpressure errors by sampling the stream by consumer processing time
-  }
-
-  @Test
-  public void backpressureBatching() {
-    // TODO: batch values and process them with batchConsumer()
+  public void buffer_backpressureBatching() {
+    // TODO: batch values and process them with batchLogsConsumer()
     // TODO: Experiment with different sizes of buffer
   }
 
@@ -53,29 +47,29 @@ public class Task8_Backpressure {
     // TODO: Try different sizes of backpressure buffer to better understand how internal buffers work
   }
 
-  Consumer<Water> slowConsumer() {
-    return water -> {
+  private Consumer<Log> slowLogConsumer() {
+    return log -> {
       sleep(25);
-      System.out.println(water);
+      System.out.println(log);
     };
   }
 
-  Consumer<Water> reallySlowConsumer() {
-    return water -> {
+  private Consumer<Log> reallySlowLogConsumer() {
+    return log -> {
       sleep(100);
-      System.out.println(water);
+      System.out.println(log);
     };
   }
 
-  Consumer<List<Water>> batchConsumer() {
-    return water -> {
+  private Consumer<List<Log>> batchLogsConsumer() {
+    return logs -> {
       sleep(100);
-      System.out.println(water);
+      System.out.println(logs);
     };
   }
 
   @After
   public void after() {
-    sleep(5_000);
+    sleep(3_000);
   }
 }
