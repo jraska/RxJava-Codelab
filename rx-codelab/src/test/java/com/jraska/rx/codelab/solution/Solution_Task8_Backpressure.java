@@ -1,99 +1,96 @@
 package com.jraska.rx.codelab.solution;
 
-import com.jraska.rx.codelab.nature.Earth;
-import com.jraska.rx.codelab.nature.Universe;
-import com.jraska.rx.codelab.nature.Water;
-
+import com.jraska.rx.codelab.server.Log;
+import com.jraska.rx.codelab.server.RxServer;
+import com.jraska.rx.codelab.server.RxServerFactory;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 import static com.jraska.rx.codelab.Utils.sleep;
 
 public class Solution_Task8_Backpressure {
-  Earth theEarth;
+  private RxServer rxServer;
 
   @Before
   public void before() {
-    theEarth = Universe.bigBang().planetEarth();
+    rxServer = RxServerFactory.create();
   }
 
   @Test
   public void backpressureFail() {
-    theEarth.amazonRiver()
+    rxServer.allLogsHot()
       .observeOn(Schedulers.newThread())
-      .subscribe(reallySlowConsumer());
+      .subscribe(reallySlowLogConsumer());
   }
 
   @Test
   public void noBackpressure() {
-    theEarth.amazonRiver()
+    rxServer.allLogsHot()
       .toObservable()
       .observeOn(Schedulers.newThread())
-      .subscribe(reallySlowConsumer());
+      .subscribe(reallySlowLogConsumer());
+    // TODO: Modify example above to ignore backpressure and continue forever (toObservable())
   }
 
   @Test
   public void onBackpressureDrop() {
-    theEarth.amazonRiver()
+    rxServer.allLogsHot()
       .onBackpressureDrop(water -> System.out.println("On Drop " + water))
       .observeOn(Schedulers.newThread())
-      .subscribe(slowConsumer());
+      .subscribe(slowLogConsumer());
+
+    // TODO: Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowLogConsumer
   }
 
   @Test
-  public void backpressureSample() {
-    theEarth.amazonRiver()
-      .sample(25, TimeUnit.MILLISECONDS)
-      .observeOn(Schedulers.newThread())
-      .subscribe(slowConsumer());
-  }
+  public void buffer_backpressureBatching() {
+    // TODO: batch values and process them with batchLogsConsumer()
+    // TODO: Experiment with different sizes of buffer
 
-  @Test
-  public void backpressureBatching() {
-    theEarth.amazonRiver()
-      .buffer(2)
+    rxServer.allLogsHot()
+      .buffer(5)
       .observeOn(Schedulers.newThread())
-      .subscribe(batchConsumer());
+      .subscribe(batchLogsConsumer());
   }
 
   @Test
   public void onBackpressureBuffer() {
-    theEarth.amazonRiver()
-      .onBackpressureBuffer(10)
+    rxServer.allLogsHot()
+      .onBackpressureBuffer(128)
       .observeOn(Schedulers.newThread())
-      .subscribe(slowConsumer());
+      .subscribe(slowLogConsumer());
+
+    // TODO: Try different sizes of backpressure buffer to better understand how internal buffers work
   }
 
-  Consumer<Water> slowConsumer() {
-    return water -> {
+  private Consumer<Log> slowLogConsumer() {
+    return log -> {
       sleep(25);
-      System.out.println(water);
+      System.out.println(log);
     };
   }
 
-  Consumer<Water> reallySlowConsumer() {
-    return water -> {
+  private Consumer<Log> reallySlowLogConsumer() {
+    return log -> {
       sleep(100);
-      System.out.println(water);
+      System.out.println(log);
     };
   }
 
-  Consumer<List<Water>> batchConsumer() {
-    return water -> {
+  private Consumer<List<Log>> batchLogsConsumer() {
+    return logs -> {
       sleep(100);
-      System.out.println(water);
+      System.out.println(logs);
     };
   }
 
   @After
   public void after() {
-    sleep(5_000);
+    sleep(3_000);
   }
 }
