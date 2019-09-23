@@ -3,18 +3,13 @@ package com.jraska.rx.codelab;
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
 import com.jraska.rx.codelab.http.RequestInfo;
-import com.jraska.rx.codelab.server.Log;
 import com.jraska.rx.codelab.server.RxServer;
 import com.jraska.rx.codelab.server.RxServerFactory;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.jraska.rx.codelab.Utils.sleep;
 
@@ -49,8 +44,10 @@ public class Task7_HotObservables {
 
   @Test
   public void createHotObservableThroughSubject() {
+    Observable<RequestInfo> getRequest = httpBinApi.getRequest();
+
     // TODO: Create a PublishSubject<RequestInfo> and subscribe twice to it with printing the result
-    // TODO: do HTTP GET request to httpbin.org and publish its values to subject
+    // TODO: Subscribe to getRequest and publish its values to subject
   }
 
   @After
