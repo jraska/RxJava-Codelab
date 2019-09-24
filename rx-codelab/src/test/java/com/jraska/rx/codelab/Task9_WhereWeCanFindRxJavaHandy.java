@@ -2,26 +2,37 @@ package com.jraska.rx.codelab;
 
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
-
+import com.jraska.rx.codelab.http.RequestInfo;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import io.reactivex.schedulers.Schedulers;
-
-import static com.jraska.rx.codelab.Utils.sleep;
-
 public class Task9_WhereWeCanFindRxJavaHandy {
-  HttpBinApi httpBinApi;
-
-  @Before
-  public void before() {
-    httpBinApi = HttpModule.httpBinApi();
-  }
+  private final HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Test
-  public void publish_refCount_singleRequest() {
-    // TODO: execute httpbin get request on io scheduler, subscribe twice and make sure the request happens just once - publish().refCount()
+  public void repeatWhen_refreshFunctionality() {
+    PublishSubject<Object> refreshSignal = PublishSubject.create();
+
+    Observable<RequestInfo> request = httpBinApi.getRequest()
+      .subscribeOn(Schedulers.io())
+      .share()
+      .repeatWhen(any -> refreshSignal)
+      .cache();
+
+    // TODO: Perform only one request for both following subscribes - share()
+    request.subscribe();
+    request.subscribe();
+
+    HttpModule.awaitNetworkRequests();
+
+    // TODO: Make this subscribe receive cached value = cache()
+    request.subscribe();
+
+    // TODO: Now refresh the existing observable - use repeatWhen(subject) before calling cache()
+    refreshSignal.onNext(new Object());
   }
 
   @Test
@@ -48,6 +59,6 @@ public class Task9_WhereWeCanFindRxJavaHandy {
 
   @After
   public void after() {
-    sleep(2000);
+    HttpModule.awaitNetworkRequests();
   }
 }
