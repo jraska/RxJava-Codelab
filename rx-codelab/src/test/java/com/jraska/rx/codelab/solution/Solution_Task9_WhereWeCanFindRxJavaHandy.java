@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.jraska.rx.codelab.Utils.sleep;
 
-public class Solution_Task9_ConnectableObservableAndMore {
+public class Solution_Task9_WhereWeCanFindRxJavaHandy {
   HttpBinApi httpBinApi;
 
   @Before
