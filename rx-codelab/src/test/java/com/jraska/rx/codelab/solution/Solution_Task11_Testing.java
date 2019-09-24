@@ -1,74 +1,70 @@
 package com.jraska.rx.codelab.solution;
 
-import com.jraska.rx.codelab.nature.Barrel;
-import com.jraska.rx.codelab.nature.Earth;
-import com.jraska.rx.codelab.nature.Universe;
-import com.jraska.rx.codelab.nature.Water;
+import com.jraska.rx.codelab.SchedulerProvider;
+import com.jraska.rx.codelab.http.HttpBinApi;
+import com.jraska.rx.codelab.http.HttpModule;
+import com.jraska.rx.codelab.http.IpViewModel;
+import com.jraska.rx.codelab.http.RequestInfo;
+import com.jraska.rx.codelab.server.Log;
+import com.jraska.rx.codelab.server.RxServer;
+import com.jraska.rx.codelab.server.RxServerFactory;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 import io.reactivex.subjects.PublishSubject;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Solution_Task11_Testing {
-  Earth theEarth;
-
-  @Before
-  public void before() {
-    theEarth = Universe.bigBang().planetEarth();
-  }
+  private final RxServer rxServer = RxServerFactory.create();
+  private final HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Test
   public void testObserver_onColdObservable() {
-    theEarth.oilWell()
-      .test()
+    Observable<RequestInfo> request = httpBinApi.getRequest();
+    request.test()
       .assertSubscribed()
-      .assertNoErrors()
-      .assertValueCount(10)
-      .assertComplete()
-      .assertTerminated()
-      .assertNever(new Barrel(12345));
+      .assertValueCount(1)
+      .assertValue(requestInfo -> requestInfo.url.contains("show_env"))
+      .assertComplete();
   }
 
   @Test
   public void testSubscriber_onHotFlowable() {
-    theEarth.amazonRiver()
-      .take(5)
-      .test()
+    Observable<Log> logObservable = rxServer.debugLogsHot();
+
+    logObservable.test()
       .awaitCount(5)
-      .assertValueCount(5)
-      .assertNoTimeout()
-      .assertSubscribed()
-      .assertNoErrors()
-      .assertNever(new Water(12345));
+      .assertNotComplete()
+      .assertNotTerminated()
+      .assertNoErrors();
   }
 
   @Test
-  public void testScheduler_makeIntervalTickFast() {
+  public void testScheduler_advancingTime() {
     TestScheduler testScheduler = new TestScheduler();
 
-    Observable<Long> interval = Observable.interval(100, TimeUnit.MILLISECONDS, testScheduler);
-    interval.subscribe(System.out::println);
+    PublishSubject<String> subject = PublishSubject.create();
+    Observable<List<String>> bufferedObservable = subject.buffer(100, TimeUnit.MILLISECONDS, testScheduler);
+    bufferedObservable.subscribe(System.out::println);
 
-    for (int i = 0; i < 100; i++) {
-      testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS);
-    }
+    subject.onNext("First");
+    subject.onNext("Batch");
+
+    testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS);
+
+    subject.onNext("Second");
+    subject.onNext("Longer");
+    subject.onNext("Batch");
+
+    testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS);
   }
 
   @Test
-  public void testScheduler_debounceTesting() {
-    PublishSubject<Integer> subject = PublishSubject.create();
+  public void schedulerProvider_runSynchronouslyInTest() {
+    IpViewModel viewModel = new IpViewModel(httpBinApi, SchedulerProvider.testSchedulers());
 
-    TestScheduler testScheduler = new TestScheduler();
-
-    subject.debounce(10, TimeUnit.MILLISECONDS, testScheduler)
-      .subscribe(System.out::println);
-
-    for (int i = 0; i < 20; i++) {
-      subject.onNext(i);
-      testScheduler.advanceTimeBy(i, TimeUnit.MILLISECONDS);
-    }
+    viewModel.ip().subscribe(System.out::println);
   }
 }
