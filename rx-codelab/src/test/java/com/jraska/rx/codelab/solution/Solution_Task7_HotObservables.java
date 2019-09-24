@@ -4,20 +4,15 @@ import com.jraska.rx.codelab.RxLogging;
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
 import com.jraska.rx.codelab.http.RequestInfo;
-import com.jraska.rx.codelab.nature.Earth;
-import com.jraska.rx.codelab.nature.Universe;
-
 import com.jraska.rx.codelab.server.Log;
 import com.jraska.rx.codelab.server.RxServer;
 import com.jraska.rx.codelab.server.RxServerFactory;
+import io.reactivex.Observable;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import io.reactivex.Observable;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
 
 import java.util.concurrent.TimeUnit;
 
