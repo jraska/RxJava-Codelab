@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.jraska.rx.codelab.Utils.sleep;
 
-public class Solution_Task8_Backpressure {
+public class Solution_Task10_Backpressure {
   private RxServer rxServer;
 
   @Before

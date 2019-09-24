@@ -12,7 +12,7 @@ import org.junit.Test;
 //import reactor.core.publisher.Mono;
 //import rx.subjects.Subject;
 
-public class Solution_Task10_OtherLibrariesInteroperability {
+public class Solution_Task11_OtherLibrariesInteroperability {
 //  @Test
 //  public void givenRxJava1and2() {
 //    rx.Observable<String> stringObservable = RxJavaInterop.toV1Observable(Observable.just("hi").toFlowable(BackpressureStrategy.DROP));

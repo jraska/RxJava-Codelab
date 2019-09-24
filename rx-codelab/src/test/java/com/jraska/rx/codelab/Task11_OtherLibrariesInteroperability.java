@@ -2,7 +2,7 @@ package com.jraska.rx.codelab;
 
 import org.junit.Test;
 
-public class Task10_OtherLibrariesInteroperability {
+public class Task11_OtherLibrariesInteroperability {
 
   // TODO: Uncomment Gradle dependencies for this test
 
