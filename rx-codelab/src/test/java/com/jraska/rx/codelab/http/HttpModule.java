@@ -9,6 +9,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public abstract class HttpModule {
   private static Dispatcher dispatcher = new Dispatcher();
 
@@ -51,7 +55,10 @@ public abstract class HttpModule {
   }
 
   private static OkHttpClient.Builder okClientBuilder() {
-    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(System.out::println)
+    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss:SSS");
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
+      System.out.println(timeFormat.format(new Date()) + ": " + message);
+    })
       .setLevel(Level.BASIC);
 
     return new OkHttpClient.Builder()

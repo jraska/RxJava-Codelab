@@ -3,11 +3,14 @@ package com.jraska.rx.codelab;
 import com.jraska.rx.codelab.http.HttpBinApi;
 import com.jraska.rx.codelab.http.HttpModule;
 import com.jraska.rx.codelab.http.RequestInfo;
+import com.jraska.rx.codelab.http.RequestInfoCache;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import org.junit.After;
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 public class Task9_WhereWeCanFindRxJavaHandy {
   private final HttpBinApi httpBinApi = HttpModule.httpBinApi();
@@ -17,10 +20,7 @@ public class Task9_WhereWeCanFindRxJavaHandy {
     PublishSubject<Object> refreshSignal = PublishSubject.create();
 
     Observable<RequestInfo> request = httpBinApi.getRequest()
-      .subscribeOn(Schedulers.io())
-      .share()
-      .repeatWhen(any -> refreshSignal)
-      .cache();
+      .subscribeOn(Schedulers.io());
 
     // TODO: Perform only one request for both following subscribes - share()
     request.subscribe();
@@ -36,29 +36,31 @@ public class Task9_WhereWeCanFindRxJavaHandy {
   }
 
   @Test
-  public void replayProcessor_replayValues() {
-    // TODO: Create ReplayProcessor<String>
-    // TODO: Subscribe with logging into console
-    // TODO: Push two strings by onNext()
-    // TODO: Subscribe again logging into console
+  public void repeat_pollingNetwork() {
+    Observable<RequestInfo> request = httpBinApi.getRequest();
+    long endOfPolling = System.currentTimeMillis() + 1000;
+
+    // TODO: Implement polling on the request for one second - repeat(), takeUntil()
+    // TODO: Add 100ms delay between requests - repeatWhen(), delay()
   }
 
   @Test
-  public void behaviorProcessor_storeResponse() {
-    // TODO: BehaviorProcessor<RequestInfo> to store and publish value of httpbin request
-    // TODO: After some time after request, subscribe again to the processor
-  }
+  public void ambWith_effectiveCache() {
+    Observable<RequestInfo> request = httpBinApi.getRequest()
+      .subscribeOn(Schedulers.io())
+      .share();
 
-  @Test
-  public void twoRequestsInParallel_modifiedWithPlugins() {
-    // TODO: Make this two parallel requests runs in serial order - RxJavaPlugins.setIoSchedulerHandler
+    Observable<RequestInfo> requestWithCache = RequestInfoCache.getRequestInfo().mergeWith(request);
 
-    httpBinApi.getRequest().subscribeOn(Schedulers.io()).subscribe(System.out::println);
-    httpBinApi.getRequest().subscribeOn(Schedulers.io()).subscribe(System.out::println);
+    // TODO: requestWithCache has a bug! In rare case when the network request happens to be faster than the cache, ...
+    // TODO: ...the last emission will be cached value. Fix this with ambWith
+
+    requestWithCache.subscribe(System.out::println);
   }
 
   @After
   public void after() {
+    Utils.sleep(1000);
     HttpModule.awaitNetworkRequests();
   }
 }
