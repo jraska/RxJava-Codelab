@@ -14,7 +14,6 @@ public class SetupTest {
   public void everythingSetUp() throws IOException {
     RequestInfo requestInfo = HttpModule.httpBinApi()
       .getRequest()
-      .compose(LoggingObserver.transformer())
       .blockingFirst();
 
     assertThat(requestInfo.url).isNotNull();
