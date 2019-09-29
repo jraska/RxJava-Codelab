@@ -13,7 +13,7 @@ The advanced codelab will take you more into deep of reactive world, we will go 
 
 ## Prerequisites
  0. Java 8 SDK
- 0. IntelliJ (any edition) or any Java IDE you like
+ 0. IntelliJ (any edition) or any other IDE you like
 
 
 ## Project setup
@@ -23,7 +23,7 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  0. Call for help if it doesn't work
 
 
-## RxJava Basics Codelab covers ([pdf](https://drive.google.com/file/d/1ZjWuN9WCVtPVBl5PeeLZuSW2z8cAIWw2/view?usp=sharing))
+## RxJava Basics Codelab covers ([slides](https://docs.google.com/presentation/d/1W7AZm5t1PRIxttFtxROPV4wowUn6gh7lNsp_y0aNvgs/edit?usp=sharing))
  - What is a stream? Observable contract
  - How to create Observables
  - Transformations
@@ -32,13 +32,14 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  - Threading - Schedulers
 
 
-## RxJava Advanced Codelab covers
+## RxJava Advanced Codelab covers ([slides](https://docs.google.com/presentation/d/1jxQA4uN61aZAmvnsw10-wTVD_f1rcRP2zIhzPNC7NYE/edit?usp=sharing))
  - Observable feat. Single, Maybe, Completable
  - Hot/Cold Observables
+ - Testing
+ - Use cases - cache/refresh, polling, caching, ...
  - Backpressure - Observable vs. Flowable
- - ConnectableObservables, Processors, Plugins, ...
  - Other reactive libraries interoperability
- - Testing Observables
+
 
 
 ## Links
