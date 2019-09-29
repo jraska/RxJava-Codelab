@@ -12,7 +12,7 @@ public class Task3_Combining {
 
   @Before
   public void setUp() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test

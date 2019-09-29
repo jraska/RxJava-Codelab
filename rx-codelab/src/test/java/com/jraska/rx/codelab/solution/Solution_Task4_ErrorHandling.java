@@ -14,7 +14,7 @@ public class Solution_Task4_ErrorHandling {
 
   @Before
   public void before() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test
@@ -39,7 +39,7 @@ public class Solution_Task4_ErrorHandling {
 
   @Test
   public void retry_retryOnError() {
-    httpBinApi.flakeyGet()
+    httpBinApi.flakyGet()
       .retry()
       .subscribe(System.out::println);
   }

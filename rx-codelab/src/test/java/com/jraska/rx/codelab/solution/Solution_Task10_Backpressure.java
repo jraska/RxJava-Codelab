@@ -18,7 +18,7 @@ public class Solution_Task10_Backpressure {
 
   @Before
   public void before() {
-    rxServer = RxServerFactory.create();
+    rxServer = RxServerFactory.INSTANCE.create();
   }
 
   @Test

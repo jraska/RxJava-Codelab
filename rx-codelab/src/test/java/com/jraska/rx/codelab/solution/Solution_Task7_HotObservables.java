@@ -25,10 +25,10 @@ public class Solution_Task7_HotObservables {
 
   @Before
   public void before() {
-    rxServer = RxServerFactory.create();
+    rxServer = RxServerFactory.INSTANCE.create();
     httpBinApi = HttpModule.httpBinApi();
 
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test

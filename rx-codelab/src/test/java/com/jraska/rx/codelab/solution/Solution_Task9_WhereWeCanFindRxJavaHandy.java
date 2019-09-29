@@ -60,7 +60,7 @@ public class Solution_Task9_WhereWeCanFindRxJavaHandy {
       .subscribeOn(Schedulers.io())
       .share();
 
-    Observable<RequestInfo> requestWithCache = RequestInfoCache.getRequestInfo().mergeWith(request);
+    Observable<RequestInfo> requestWithCache = RequestInfoCache.INSTANCE.getRequestInfo().mergeWith(request);
 
     Observable<RequestInfo> observableWithCache = request.ambWith(requestWithCache);
     observableWithCache.subscribe(System.out::println);

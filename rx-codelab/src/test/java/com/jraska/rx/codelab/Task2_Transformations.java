@@ -12,7 +12,7 @@ public class Task2_Transformations {
 
   @Before
   public void setUp() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test

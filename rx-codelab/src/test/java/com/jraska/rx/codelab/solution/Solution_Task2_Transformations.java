@@ -15,13 +15,13 @@ public class Solution_Task2_Transformations {
 
   @Before
   public void setUp() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test
   public void map_convertUserDto() {
     gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter::convert)
+      .map(GitHubConverter.INSTANCE::convert)
       .map(User::toString)
       .subscribe(System.out::println);
   }
@@ -30,14 +30,14 @@ public class Solution_Task2_Transformations {
   public void flatMap_getFirstUserDetailAfterGettingList() {
     gitHubApi.getFirstUsers()
       .flatMap(gitHubUsers -> gitHubApi.getUser(gitHubUsers.get(0).login))
-      .map(GitHubConverter::convert)
+      .map(GitHubConverter.INSTANCE::convert)
       .subscribe(System.out::println);
   }
 
   @Test
   public void replayAutoConnect_oneRequestForTwoSubscriptions() {
     Observable<User> observable = gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter::convert)
+      .map(GitHubConverter.INSTANCE::convert)
       .replay(1)
       .autoConnect();
 

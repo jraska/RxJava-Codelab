@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Solution_Task8_Testing {
-  private final RxServer rxServer = RxServerFactory.create();
+  private final RxServer rxServer = RxServerFactory.INSTANCE.create();
   private final HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Test
@@ -63,7 +63,7 @@ public class Solution_Task8_Testing {
 
   @Test
   public void schedulerProvider_runSynchronouslyInTest() {
-    IpViewModel viewModel = new IpViewModel(httpBinApi, SchedulerProvider.testSchedulers());
+    IpViewModel viewModel = new IpViewModel(httpBinApi, SchedulerProvider.Companion.testSchedulers());
 
     viewModel.ip().subscribe(System.out::println);
   }

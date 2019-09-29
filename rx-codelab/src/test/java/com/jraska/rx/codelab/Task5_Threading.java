@@ -39,7 +39,7 @@ public class Task5_Threading {
 
   @Test
   public void observeOn_receivingResultsOnDifferentThreads() {
-    Observable<User> userObservable = gitHubApi.getUser(LOGIN).map(GitHubConverter::convert);
+    Observable<User> userObservable = gitHubApi.getUser(LOGIN).map(GitHubConverter.INSTANCE::convert);
     printWithThreadId("Test thread");
 
     // TODO: Get user and print him on different threads, use `observeOn`, `doOnNext` and `printWithThreadId` methods

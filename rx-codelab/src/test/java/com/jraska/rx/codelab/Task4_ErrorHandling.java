@@ -13,7 +13,7 @@ public class Task4_ErrorHandling {
 
   @Before
   public void before() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test
@@ -33,7 +33,7 @@ public class Task4_ErrorHandling {
 
   @Test
   public void retry_retryOnError() {
-    // TODO: httpBinApi.flakeyGet is a bit flakey and often fails, use retry to make it always complete
+    // TODO: httpBinApi.flakyGet is a bit flakey and often fails, use retry to make it always complete
   }
 
   static ResponseBody syntheticBody() {

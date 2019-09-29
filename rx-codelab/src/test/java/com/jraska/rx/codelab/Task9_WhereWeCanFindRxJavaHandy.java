@@ -50,7 +50,7 @@ public class Task9_WhereWeCanFindRxJavaHandy {
       .subscribeOn(Schedulers.io())
       .share();
 
-    Observable<RequestInfo> requestWithCache = RequestInfoCache.getRequestInfo().mergeWith(request);
+    Observable<RequestInfo> requestWithCache = RequestInfoCache.INSTANCE.getRequestInfo().mergeWith(request);
 
     // TODO: requestWithCache has a bug! In rare case when the network request happens to be faster than the cache, ...
     // TODO: ...the last emission will be cached value. Fix this with ambWith

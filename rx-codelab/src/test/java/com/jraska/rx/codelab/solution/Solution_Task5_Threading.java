@@ -22,7 +22,7 @@ public class Solution_Task5_Threading {
   public void zip_subscribeOn_getUserAndHisReposInParallel() {
     gitHubApi.getUser(LOGIN)
       .subscribeOn(Schedulers.io())
-      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter::convert)
+      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter.INSTANCE::convert)
       .subscribe(System.out::println);
   }
 
@@ -30,14 +30,14 @@ public class Solution_Task5_Threading {
   public void zip_subscribeOn_twoUserAndReposInSerialExplicitly() {
     gitHubApi.getUser(LOGIN)
       .subscribeOn(Schedulers.single())
-      .zipWith(gitHubApi.getRepos(LOGIN).subscribeOn(Schedulers.single()), GitHubConverter::convert)
+      .zipWith(gitHubApi.getRepos(LOGIN).subscribeOn(Schedulers.single()), GitHubConverter.INSTANCE::convert)
       .subscribeOn(Schedulers.io())
       .subscribe(System.out::println);
   }
 
   @Test
   public void observeOn_receivingResultsOnDifferentThreads() {
-    Observable<User> userObservable = gitHubApi.getUser(LOGIN).map(GitHubConverter::convert);
+    Observable<User> userObservable = gitHubApi.getUser(LOGIN).map(GitHubConverter.INSTANCE::convert);
     printWithThreadId("Test thread");
 
     userObservable.doOnNext(this::printWithThreadId)

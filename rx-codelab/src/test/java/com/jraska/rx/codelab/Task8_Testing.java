@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Task8_Testing {
-  private final RxServer rxServer = RxServerFactory.create();
+  private final RxServer rxServer = RxServerFactory.INSTANCE.create();
   private final HttpBinApi httpBinApi = HttpModule.httpBinApi();
 
   @Test

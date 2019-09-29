@@ -14,42 +14,42 @@ public class Solution_Task3_Combining {
 
   @Before
   public void setUp() {
-    RxLogging.enableObservableSubscribeLogging();
+    RxLogging.INSTANCE.enableObservableSubscribeLogging();
   }
 
   @Test
   public void zipWith_userWithRepos() {
     gitHubApi.getUser(LOGIN)
-      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter::convert)
+      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter.INSTANCE::convert)
       .subscribe(System.out::println);
   }
 
   @Test
   public void startWith_userInCache() {
     gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter::convert)
-      .startWith(UserCache.getUser(LOGIN))
+      .map(GitHubConverter.INSTANCE::convert)
+      .startWith(UserCache.INSTANCE.getUser(LOGIN))
       .subscribe(System.out::println);
   }
 
   @Test
   public void merge_userInCache() {
-    UserCache.getUser(LOGIN)
+    UserCache.INSTANCE.getUser(LOGIN)
       .mergeWith(gitHubApi.getUser(LOGIN)
-        .map(GitHubConverter::convert))
+        .map(GitHubConverter.INSTANCE::convert))
       .subscribe(System.out::println);
   }
 
   @Test
   public void combineLatest_cachedUserWithRepos() {
     Observable<User> userObservable = gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter::convert)
-      .startWith(UserCache.getUser(LOGIN));
+      .map(GitHubConverter.INSTANCE::convert)
+      .startWith(UserCache.INSTANCE.getUser(LOGIN));
 
     Observable<List<Repo>> reposObservable = gitHubApi.getRepos(LOGIN)
-      .map(GitHubConverter::convert);
+      .map(GitHubConverter.INSTANCE::convert);
 
-    Observable.combineLatest(reposObservable, userObservable, GitHubConverter::convert)
+    Observable.combineLatest(reposObservable, userObservable, GitHubConverter.INSTANCE::convert)
       .subscribe(System.out::println);
   }
 }
