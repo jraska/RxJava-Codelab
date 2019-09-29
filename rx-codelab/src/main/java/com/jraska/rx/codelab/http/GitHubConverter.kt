@@ -10,7 +10,7 @@ object GitHubConverter {
   }
 
   fun convert(gitHubRepo: GitHubRepo): Repo {
-    return Repo(gitHubRepo.name, gitHubRepo.description,
+    return Repo(gitHubRepo.name, gitHubRepo.description ?: "",
       gitHubRepo.stargazersCount, gitHubRepo.forks, gitHubRepo.size)
   }
 
