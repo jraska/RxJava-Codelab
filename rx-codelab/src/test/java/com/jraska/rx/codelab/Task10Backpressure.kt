@@ -1,53 +1,39 @@
-package com.jraska.rx.codelab.solution
+package com.jraska.rx.codelab
 
 import com.jraska.rx.codelab.server.Log
 import com.jraska.rx.codelab.server.RxServer
 import com.jraska.rx.codelab.server.RxServerFactory
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import org.junit.After
 import org.junit.Test
 
-class SolutionTask10Backpressure {
+class Task10Backpressure {
   private val rxServer: RxServer = RxServerFactory.create()
 
   @Test
   fun backpressureFail() {
-    rxServer.allLogsHot()
-      .observeOn(Schedulers.newThread())
-      .subscribe(reallySlowLogConsumer())
+    // TODO: Subscribe to rxServer.allLogsHot on different thread (observeOn), use reallySlowLogConsumer
   }
 
   @Test
   fun noBackpressure() {
-    rxServer.allLogsHot()
-      .toObservable()
-      .observeOn(Schedulers.newThread())
-      .subscribe(reallySlowLogConsumer())
+    // TODO: Modify example above to ignore backpressure and continue forever (toObservable())
   }
 
   @Test
   fun onBackpressureDrop() {
-    rxServer.allLogsHot()
-      .onBackpressureDrop { water -> println("On Drop $water") }
-      .observeOn(Schedulers.newThread())
-      .subscribe(slowLogConsumer())
+    // TODO: Drop values on backpressure with logging which values are dropped (onBackpressureDrop), use slowLogConsumer
   }
 
   @Test
   fun buffer_backpressureBatching() {
-    rxServer.allLogsHot()
-      .buffer(5)
-      .observeOn(Schedulers.newThread())
-      .subscribe(batchLogsConsumer())
+    // TODO: batch values and process them with batchLogsConsumer()
+    // TODO: Experiment with different sizes of buffer
   }
 
   @Test
   fun onBackpressureBuffer() {
-    rxServer.allLogsHot()
-      .onBackpressureBuffer(128)
-      .observeOn(Schedulers.newThread())
-      .subscribe(slowLogConsumer())
+    // TODO: Try different sizes of backpressure buffer to better understand how internal buffers work
   }
 
   private fun slowLogConsumer(): Consumer<Log> {

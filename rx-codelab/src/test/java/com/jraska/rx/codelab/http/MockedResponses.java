@@ -1,9 +1,5 @@
 package com.jraska.rx.codelab.http;
 
-import java.io.ByteArrayInputStream;
-import java.util.HashMap;
-import java.util.Map;
-
 import okhttp3.HttpUrl;
 import okhttp3.Protocol;
 import okhttp3.Request;
@@ -12,6 +8,10 @@ import okhttp3.internal.http.RealResponseBody;
 import okio.BufferedSource;
 import okio.Okio;
 import okio.Source;
+
+import java.io.ByteArrayInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 final class MockedResponses {
   private final Map<HttpUrl, String> responseUrlMap;

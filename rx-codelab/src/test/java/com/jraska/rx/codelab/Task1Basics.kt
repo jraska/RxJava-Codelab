@@ -1,25 +1,31 @@
-package com.jraska.rx.codelab;
+package com.jraska.rx.codelab
 
-import org.junit.Test;
+import org.junit.Test
 
-public class Task1_Basics {
+class Task1Basics {
   @Test
-  public void dummyObservable() {
+  fun dummyObservable() {
     // TODO:  Create Observable with single String value, subscribe to it and print it to console (Observable.just)
   }
 
   @Test
-  public void methodIntoObservable() {
+  fun methodIntoObservable() {
     // TODO:  Create Observable getting current time, subscribe to it and print value to console (Observable.fromCallable)
   }
 
   @Test
-  public void helloOperator() {
+  fun helloOperator() {
     // TODO:  Create Observable with ints 1 .. 10 subscribe to it and print only odd values (Observable.range, observable.filter)
   }
 
   @Test
-  public void receivingError() {
+  fun receivingError() {
     // TODO:  Create Observable which emits an error and print the console (Observable.error), subscribe with onError handling
+  }
+
+  companion object {
+    fun isOdd(value: Int): Boolean {
+      return value % 2 == 1
+    }
   }
 }

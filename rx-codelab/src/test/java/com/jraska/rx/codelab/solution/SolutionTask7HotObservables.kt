@@ -1,69 +1,59 @@
-package com.jraska.rx.codelab.solution;
+package com.jraska.rx.codelab.solution
 
-import com.jraska.rx.codelab.RxLogging;
-import com.jraska.rx.codelab.http.HttpBinApi;
-import com.jraska.rx.codelab.http.HttpModule;
-import com.jraska.rx.codelab.http.RequestInfo;
-import com.jraska.rx.codelab.server.Log;
-import com.jraska.rx.codelab.server.RxServer;
-import com.jraska.rx.codelab.server.RxServerFactory;
-import io.reactivex.Observable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.jraska.rx.codelab.RxLogging
+import com.jraska.rx.codelab.http.HttpModule
+import com.jraska.rx.codelab.http.RequestInfo
+import com.jraska.rx.codelab.server.RxServerFactory
+import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import java.util.concurrent.TimeUnit
 
-import java.util.concurrent.TimeUnit;
+class SolutionTask7HotObservables {
 
-import static com.jraska.rx.codelab.Utils.sleep;
-
-public class Solution_Task7_HotObservables {
-
-  private RxServer rxServer;
-  private HttpBinApi httpBinApi;
+  private val rxServer = RxServerFactory.create()
+  private val httpBinApi = HttpModule.httpBinApi()
 
   @Before
-  public void before() {
-    rxServer = RxServerFactory.INSTANCE.create();
-    httpBinApi = HttpModule.httpBinApi();
-
-    RxLogging.INSTANCE.enableObservableSubscribeLogging();
+  fun before() {
+    RxLogging.enableObservableSubscribeLogging()
   }
 
   @Test
-  public void coldObservable() {
-    Observable<RequestInfo> getRequest = httpBinApi.getRequest()
+  fun coldObservable() {
+    val getRequest = httpBinApi.getRequest()
       .subscribeOn(Schedulers.io())
-      .share();
+      .share()
 
-    getRequest.subscribe(System.out::println);
-    getRequest.subscribe(System.out::println);
+    getRequest.subscribe { println(it) }
+    getRequest.subscribe { println(it) }
   }
 
   @Test
-  public void hotObservable() {
-    Observable<Log> logs = rxServer.debugLogsHot();
+  fun hotObservable() {
+    val logs = rxServer.debugLogsHot()
 
-    logs.delaySubscription(250, TimeUnit.MILLISECONDS).subscribe(System.out::println);
-    logs.subscribe(System.out::println);
+    logs.delaySubscription(250, TimeUnit.MILLISECONDS).subscribe { println(it) }
+    logs.subscribe { println(it) }
   }
 
   @Test
-  public void createHotObservableThroughSubject() {
-    PublishProcessor<RequestInfo> publishProcessor = PublishProcessor.create();
+  fun createHotObservableThroughSubject() {
+    val publishProcessor = PublishProcessor.create<RequestInfo>()
 
-    publishProcessor.subscribe(System.out::println);
-    publishProcessor.subscribe(System.out::println);
+    publishProcessor.subscribe { println(it) }
+    publishProcessor.subscribe { println(it) }
 
-    Observable<RequestInfo> request = httpBinApi.getRequest().subscribeOn(Schedulers.io());
+    val request = httpBinApi.getRequest().subscribeOn(Schedulers.io())
 
-    request.subscribe(publishProcessor::onNext, publishProcessor::onError);
+    request.subscribe(publishProcessor::onNext, publishProcessor::onError)
   }
 
   @After
-  public void after() {
-    sleep(500);
-    HttpModule.awaitNetworkRequests();
+  fun after() {
+    Thread.sleep(500)
+    HttpModule.awaitNetworkRequests()
   }
 }

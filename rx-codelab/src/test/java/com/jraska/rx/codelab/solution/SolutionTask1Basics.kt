@@ -1,40 +1,41 @@
-package com.jraska.rx.codelab.solution;
+package com.jraska.rx.codelab.solution
 
-import org.junit.Test;
+import io.reactivex.Observable
+import org.junit.Test
 
-import io.reactivex.Observable;
-
-public class Solution_Task1_Basics {
+class SolutionTask1Basics {
   @Test
-  public void dummyObservable() {
-    Observable<String> stringObservable = Observable.just("Hello Rx");
+  fun dummyObservable() {
+    val stringObservable = Observable.just("Hello Rx")
 
-    stringObservable.subscribe(System.out::println);
+    stringObservable.subscribe { println(it) }
   }
 
   @Test
-  public void methodIntoObservable() {
-    Observable<Long> currentTimeObservable = Observable.fromCallable(System::currentTimeMillis);
+  fun methodIntoObservable() {
+    val currentTimeObservable = Observable.fromCallable<Long> { System.currentTimeMillis() }
 
-    currentTimeObservable.subscribe(System.out::println);
+    currentTimeObservable.subscribe { println(it) }
   }
 
   @Test
-  public void helloOperator() {
-    Observable<Integer> rangeObservable = Observable.range(1, 10);
+  fun helloOperator() {
+    val rangeObservable = Observable.range(1, 10)
 
-    rangeObservable.filter(Solution_Task1_Basics::isOdd)
-      .subscribe(System.out::println);
+    rangeObservable.filter { isOdd(it) }
+      .subscribe(System.out::println)
   }
 
   @Test
-  public void receivingError() {
-    Observable<Integer> integerObservable = Observable.error(new RuntimeException("I want to crash you"));
+  fun receivingError() {
+    val integerObservable = Observable.error<Int>(RuntimeException("I want to crash you"))
 
-    integerObservable.subscribe(System.out::println, System.err::println);
+    integerObservable.subscribe(::println, System.err::println)
   }
 
-  static boolean isOdd(int value) {
-    return value % 2 == 1;
+  companion object {
+    fun isOdd(value: Int): Boolean {
+      return value % 2 == 1
+    }
   }
 }

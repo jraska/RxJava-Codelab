@@ -1,50 +1,52 @@
-package com.jraska.rx.codelab.solution;
+package com.jraska.rx.codelab.solution
 
-import com.jraska.rx.codelab.RxLogging;
-import com.jraska.rx.codelab.http.HttpBinApi;
-import com.jraska.rx.codelab.http.HttpModule;
-import io.reactivex.internal.functions.Functions;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import org.junit.Before;
-import org.junit.Test;
+import com.jraska.rx.codelab.RxLogging
+import com.jraska.rx.codelab.http.HttpModule
+import io.reactivex.functions.Consumer
+import io.reactivex.internal.functions.Functions
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import org.junit.Before
+import org.junit.Test
 
-public class Solution_Task4_ErrorHandling {
-  private HttpBinApi httpBinApi = HttpModule.httpBinApi();
+class SolutionTask4ErrorHandling {
+  private val httpBinApi = HttpModule.httpBinApi()
 
   @Before
-  public void before() {
-    RxLogging.INSTANCE.enableObservableSubscribeLogging();
+  fun before() {
+    RxLogging.enableObservableSubscribeLogging()
   }
 
   @Test
-  public void printErrorMessage() {
+  fun printErrorMessage() {
     httpBinApi.failingGet()
-      .subscribe(System.out::println, System.err::println);
+      .subscribe(System.out::println, System.err::println)
   }
 
   @Test
-  public void onErrorReturnItem_emitCustomItemOnError() {
+  fun onErrorReturnItem_emitCustomItemOnError() {
     httpBinApi.failingGet()
       .onErrorReturnItem(syntheticBody())
-      .subscribe(System.out::println);
+      .subscribe { println(it) }
   }
 
   @Test
-  public void onErrorResumeNext_subscribeToExtraObservableOnError() {
+  fun onErrorResumeNext_subscribeToExtraObservableOnError() {
     httpBinApi.failingGet()
       .onErrorResumeNext(httpBinApi.backupGet())
-      .subscribe(System.out::println, Functions.emptyConsumer());
+      .subscribe(Consumer { println(it) }, Functions.emptyConsumer())
   }
 
   @Test
-  public void retry_retryOnError() {
+  fun retry_retryOnError() {
     httpBinApi.flakyGet()
       .retry()
-      .subscribe(System.out::println);
+      .subscribe { println(it) }
   }
 
-  static ResponseBody syntheticBody() {
-    return ResponseBody.create(MediaType.get("application/json"), "{}");
+  companion object {
+    fun syntheticBody(): ResponseBody {
+      return ResponseBody.create(MediaType.get("application/json"), "{}")
+    }
   }
 }

@@ -1,55 +1,60 @@
-package com.jraska.rx.codelab.solution;
+package com.jraska.rx.codelab.solution
 
-import com.jraska.rx.codelab.RxLogging;
-import com.jraska.rx.codelab.http.*;
-import io.reactivex.Observable;
-import org.junit.Before;
-import org.junit.Test;
+import com.jraska.rx.codelab.RxLogging
+import com.jraska.rx.codelab.combineLatest
+import com.jraska.rx.codelab.http.GitHubConverter
+import com.jraska.rx.codelab.http.HttpModule
+import com.jraska.rx.codelab.http.UserCache
+import com.jraska.rx.codelab.zipWith
+import org.junit.Before
+import org.junit.Test
 
-import java.util.List;
-
-public class Solution_Task3_Combining {
-  private static final String LOGIN = "defunkt";
-  private GitHubApi gitHubApi = HttpModule.mockedGitHubApi();
+class SolutionTask3Combining {
+  private val gitHubApi = HttpModule.mockedGitHubApi()
 
   @Before
-  public void setUp() {
-    RxLogging.INSTANCE.enableObservableSubscribeLogging();
+  fun setUp() {
+    RxLogging.enableObservableSubscribeLogging()
   }
 
   @Test
-  public void zipWith_userWithRepos() {
+  fun zipWith_userWithRepos() {
     gitHubApi.getUser(LOGIN)
-      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter.INSTANCE::convert)
-      .subscribe(System.out::println);
+      .zipWith(gitHubApi.getRepos(LOGIN), GitHubConverter::convert)
+      .subscribe { println(it) }
   }
 
   @Test
-  public void startWith_userInCache() {
+  fun startWith_userInCache() {
     gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter.INSTANCE::convert)
-      .startWith(UserCache.INSTANCE.getUser(LOGIN))
-      .subscribe(System.out::println);
+      .map { GitHubConverter.convert(it) }
+      .startWith(UserCache.getUser(LOGIN))
+      .subscribe { println(it) }
   }
 
   @Test
-  public void merge_userInCache() {
-    UserCache.INSTANCE.getUser(LOGIN)
+  fun merge_userInCache() {
+    UserCache.getUser(LOGIN)
       .mergeWith(gitHubApi.getUser(LOGIN)
-        .map(GitHubConverter.INSTANCE::convert))
-      .subscribe(System.out::println);
+        .map { GitHubConverter.convert(it) })
+      .subscribe { println(it) }
   }
 
   @Test
-  public void combineLatest_cachedUserWithRepos() {
-    Observable<User> userObservable = gitHubApi.getUser(LOGIN)
-      .map(GitHubConverter.INSTANCE::convert)
-      .startWith(UserCache.INSTANCE.getUser(LOGIN));
+  fun combineLatest_cachedUserWithRepos() {
+    val userObservable = gitHubApi.getUser(LOGIN)
+      .map { GitHubConverter.convert(it) }
+      .startWith(UserCache.getUser(LOGIN))
 
-    Observable<List<Repo>> reposObservable = gitHubApi.getRepos(LOGIN)
-      .map(GitHubConverter.INSTANCE::convert);
+    val reposObservable = gitHubApi.getRepos(LOGIN)
+      .map { GitHubConverter.convert(it) }
 
-    Observable.combineLatest(reposObservable, userObservable, GitHubConverter.INSTANCE::convert)
-      .subscribe(System.out::println);
+
+    reposObservable.combineLatest(userObservable, GitHubConverter::convert)
+      .subscribe { println(it) }
+  }
+
+  companion object {
+    private const val LOGIN = "defunkt"
   }
 }
