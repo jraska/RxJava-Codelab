@@ -40,7 +40,11 @@ The advanced codelab will take you more into deep of reactive world, we will go 
  - Backpressure - Observable vs. Flowable
  - Other reactive libraries interoperability
 
-
+## How to use the Code Lab
+- There are tasks for different areas formed as unit tests and having a format `Task{Order}{AreaOfFocus}` (e.g. `Task2Transformations`).
+- Each of these tasks has a method with a `TODO` explaining what to do and giving hint which operator might be useful. Very often there are multiple solutions to given problem.
+- Each Task has a solution with format `SolutionTask{Order}{AreaOfFocus}` (e.g. `SolutionTask2Transformations`).
+- Recommended order is doing the tasks by order of their numbers, however jumping based on area of interest is encouraged as well.
 
 ## Links
  - ReactiveX http://reactivex.io/intro.html I consider understanding the intro part the most essential thing to understand Rx.
