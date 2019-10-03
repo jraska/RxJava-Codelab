@@ -12,5 +12,9 @@ class SchedulerProvider internal constructor(
     fun testSchedulers(): SchedulerProvider {
       return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline(), Schedulers.trampoline())
     }
+
+    fun realSchedulers(): SchedulerProvider {
+      return SchedulerProvider(Schedulers.trampoline(), Schedulers.io(), Schedulers.computation())
+    }
   }
 }
