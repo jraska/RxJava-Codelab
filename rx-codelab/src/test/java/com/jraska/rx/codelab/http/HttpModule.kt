@@ -58,7 +58,7 @@ abstract class HttpModule private constructor() {
     }
 
     private fun okClientBuilder(): OkHttpClient.Builder {
-      val timeFormat = SimpleDateFormat("HH:mm:ss:SSS")
+      val timeFormat = SimpleDateFormat("HH:mm:ss.SSS")
       val loggingInterceptor = HttpLoggingInterceptor { message -> println(timeFormat.format(Date()) + ": " + message) }
         .setLevel(Level.BASIC)
 
