@@ -1,10 +1,12 @@
 package com.jraska.rx.codelab
 
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import org.junit.Test
 
 class RolePlaying {
-  private val appSchedulerProvider = SchedulerProvider.testSchedulers()
+  private val schedulerProvider = LegoSchedulersProvider(Schedulers.trampoline(), Schedulers.trampoline())
 
   @Test
   fun equipYourLegoMan() {
@@ -22,11 +24,11 @@ class RolePlaying {
     val legoRepository = Observable.just(LegoBody(), LegoBody())
 
     val armedLegoMans = legoRepository
-      .subscribeOn(appSchedulerProvider.io)
+      .subscribeOn(schedulerProvider.leftHand)
       .map { LegoMan(it, LegoHat()) }
-      .observeOn(appSchedulerProvider.main)
+      .observeOn(schedulerProvider.rightHand)
       .map { ArmedLegoMan(it, LegoWeapon()) }
-      .observeOn(appSchedulerProvider.io)
+      .observeOn(schedulerProvider.leftHand)
 
     armedLegoMans.subscribe { println(it) }
   }
@@ -41,3 +43,8 @@ class LegoWeapon
 class LegoHat
 
 class LegoBody
+
+class LegoSchedulersProvider(
+  val leftHand: Scheduler,
+  val rightHand: Scheduler
+)

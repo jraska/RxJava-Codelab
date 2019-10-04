@@ -24,7 +24,7 @@ class Task2Transformations {
 
   @Test
   fun replayAutoConnect_oneRequestForTwoSubscriptions() {
-    // TODO: Get again the user with `LOGIN`, but subscribe and print twice only with 1 network request
+    // TODO: Get again the user with `LOGIN`, but subscribe twice and print only with 1 network request
   }
 
   companion object {
